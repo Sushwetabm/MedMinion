@@ -1,0 +1,63 @@
+.footer {
+  background-color: #00204a; /* Dark background */
+  color: #fff;
+  padding: 20px 10px; /* Reduce the padding */
+  text-align: center;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 10px; /* Reduce space between sections */
+}
+
+.footer-section {
+  flex: 1;
+  padding: 10px; /* Reduce padding for each section */
+}
+
+.footer-section h3 {
+  font-size: 20px; /* Slightly smaller heading size */
+  margin-bottom: 10px; /* Reduce margin below heading */
+}
+
+.footer-section p {
+  margin: 3px 0; /* Reduce margin between paragraphs */
+  font-size: 14px; /* Slightly smaller text */
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Slightly reduce the gap between icons */
+}
+
+.social-icon {
+  background-color: #fff;
+  color: #00204a;
+  padding: 8px; /* Reduce padding for the icons */
+  border-radius: 50%;
+  font-size: 18px; /* Slightly smaller icon size */
+  transition: background-color 0.3s ease;
+}
+
+.social-icon:hover {
+  background-color: #00aaff;
+  color: #fff;
+}
+
+.footer-bottom {
+  margin-top: 10px; /* Reduce space above bottom text */
+}
+
+.footer-bottom p {
+  font-size: 12px; /* Slightly smaller text for the bottom section */
+  color: #bbb;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+  }
+}

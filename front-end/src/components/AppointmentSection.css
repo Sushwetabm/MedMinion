@@ -1,0 +1,80 @@
+/* General Appointment Section Styling */
+.appointment-section {
+  display: flex;
+  justify-content: space-between; /* Distribute boxes evenly */
+  align-items: stretch; /* Stretch items to fill container height */
+  padding: 20px;
+  margin-top: 50px;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+/* Box Styles */
+.box {
+  flex: 1; /* Allow boxes to grow and shrink equally */
+  margin: 10px; /* Space between boxes */
+  padding: 20px;
+  border-radius: 10px;
+  opacity: 0;
+  transform: translateY(50px); /* Start from below */
+  transition: all 1s ease-in-out;
+  box-sizing: border-box; /* Include padding in the width calculation */
+  min-width: 250px; /* Minimum width for responsiveness */
+}
+
+/* Make boxes appear sequentially */
+.show {
+  opacity: 1;
+  transform: translateY(0); /* Move to original position */
+}
+
+/* Colors matching your reference image */
+.box1 {
+  background-color: #00aaff; /* Light blue for Opening Hours */
+  color: white;
+}
+
+.box2 {
+  background-color: #14274e; /* Dark blue for Search A Doctor */
+  color: white;
+}
+
+.box3 {
+  background-color: #ff814c; /* Orange for Make Appointment */
+  color: white;
+}
+
+/* Inputs and buttons styling */
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+/* Ensuring input and select elements have the same height */
+input[type="date"],
+select {
+  height: 45px; /* Set a fixed height to align them */
+}
+
+/* Button styling */
+button.search-btn,
+button.appointment-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: white;
+  border: none;
+  color: #333;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button.search-btn:hover,
+button.appointment-btn:hover {
+  background-color: #f0f0f0;
+}

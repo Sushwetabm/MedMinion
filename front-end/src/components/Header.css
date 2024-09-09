@@ -1,0 +1,104 @@
+.header {
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/src/img/bg_img.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px);
+  z-index: -1;
+}
+
+.header-content {
+  position: relative;
+  text-align: center;
+  color: white;
+  animation: popUp 2s ease-out; /* Add pop-up animation */
+}
+
+.header-content h1 {
+  font-size: 48px;
+}
+
+.header-content p {
+  font-size: 18px;
+}
+
+.header-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Space between buttons */
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  opacity: 0;
+}
+
+/* Fly-In Effect for Appointment Button */
+.btn-primary {
+  background-color: #00a8ff;
+  color: white;
+  animation: flyInLeft 2s ease-out forwards; /* Add fly-in animation */
+}
+
+/* Fly-In Effect for Contact Us Button */
+.btn-secondary {
+  background-color: #ff5722;
+  color: white;
+  animation: flyInRight 2s ease-out forwards; /* Add fly-in animation */
+  animation-delay: 0.5s; /* Delay to stagger the animation */
+}
+
+/* Keyframes for animations */
+@keyframes popUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes flyInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px); /* Start from left side */
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes flyInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px); /* Start from right side */
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
