@@ -5,7 +5,7 @@ const PATIENT = require("../models/patient");
 async function HandlePatientSignUp(req, res, next) {
   
   const { name, email, phone, dateOfBirth, password } = req.body;
- console.log(name);
+
 
   if (!name || !email || !phone || !dateOfBirth || !password) {
     return next(new errorHandler("Please fill all the details!", 400));
@@ -20,6 +20,7 @@ async function HandlePatientSignUp(req, res, next) {
   }
   try {
     const hashedPassword = await bcrypt.hash(password, 8);
+    // const pdfPath = '/uploads/' + req.file.filename;
     await PATIENT.create({
       name,
       email,
@@ -37,6 +38,7 @@ async function HandlePatientSignUp(req, res, next) {
       );
       return next(new errorHandler(validationErrors.join(" , ", 400)));
     }
+    return next(error);
   }
 }
 async function HandlePatientLogin(req, res, next) {
@@ -56,5 +58,5 @@ async function HandlePatientLogin(req, res, next) {
 }
 module.exports = {
   HandlePatientSignUp,
-  HandlePatientLogin,
+  HandlePatientLogin
 };

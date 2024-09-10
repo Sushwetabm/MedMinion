@@ -27,6 +27,10 @@ const patientSchema=new mongoose.Schema({
         type:String,
         required:true,
     },
+    pdf:{
+        type: String,
+        required:[true,"Please upload Patient pdf"],
+      }
 })
 
 const PatientModel=new mongoose.model('patient',patientSchema)
