@@ -3,7 +3,8 @@ node_modules
 venv/
 # dependencies
 client/node_modules/
-server/node_modules/
+server/node_modules/ 
+ai-models/.env
 /.pnp
 .pnp.js
 
