@@ -67,6 +67,7 @@ def fetch_medicine_data():
     data = medicine_collection.find({}, {"_id": 0}) 
     medicine_data = []
     for document in data:
+        # print(document)
         medicine_data.append(document)
     return medicine_data
 
@@ -76,7 +77,7 @@ def check_medicine_disease(parsed_entities, medicine_data):
     for entity in parsed_entities:
         for entry in medicine_data:
             if entity.lower() == entry["Disease_ID"].lower():
-                medicines_list.append(entry["Medicine_Name"]) 
+
     
     return medicines_list if medicines_list else None
 
