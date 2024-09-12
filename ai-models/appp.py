@@ -53,20 +53,43 @@ def parse_medical_entities(user_input):
     return entities
 
 # Connect to MongoDB
-client = MongoClient(mongo_uri)  # Update with your MongoDB connection string if needed
-db = client["MedMinion"]  # Replace with your database name
-collection = db["disease_symptoms_modified"]  # Replace with your collection name
+client = MongoClient(mongo_uri) 
+db = client["MedMinion"] 
 
 # Function to fetch data from MongoDB
 def fetch_disease_data():
-    data = collection.find({}, {"_id": 0})  # Fetch all documents, exclude the '_id' field
+    disease_collection = db["disease_symptoms_modified"]
+    data = disease_collection.find({}, {"_id": 0}) 
     diseases_data = []
     for document in data:
         diseases_data.append(document)
     return diseases_data
 
+# Function to fetch data from the medicine-disease table in MongoDB
+def fetch_medicine_data():
+    medicine_collection = db["Disease-Medecine"]  
+    data = medicine_collection.find({}, {"_id": 0}) 
+    medicine_data = []
+    for document in data:
+        medicine_data.append(document)
+    return medicine_data
+
+# Function to check if parsed entities match any disease in the medicine-disease table
+def check_medicine_disease(parsed_entities, medicine_data):
+    medicines_list = []  # Initialize an empty list to collect medicines
+    print(f"Disease: {parsed_entities}")
+    for entity in parsed_entities:
+        for entry in medicine_data:
+            # Check if the entity matches the Disease_ID
+            if entity.lower() == entry["Disease_ID"].lower():
+                print(f"Disease: {entity}")
+                medicines_list.append(entry["Medicine_Name"])  # Append all medicines for the matched disease
+    
+    # Return the list of medicines or None if the list is empty
+    return medicines_list if medicines_list else None
+
 # Function to match user input with dataset symptoms
-def match_symptoms(parsed_symptoms, diseases_data, top_n=3):
+def match_symptoms(parsed_symptoms, diseases_data):
     all_symptoms = []
     for disease_entry in diseases_data:
         symptoms = [v for k, v in disease_entry.items() if k.startswith("Symptom") and v]
@@ -77,9 +100,8 @@ def match_symptoms(parsed_symptoms, diseases_data, top_n=3):
     for symptom in parsed_symptoms:
         match = process.extractOne(symptom, all_symptoms, scorer=fuzz.token_sort_ratio)
         if match:
-            matched_symptoms.append(match[0])  # Append the best match symptom
+            matched_symptoms.append(match[0]) 
 
-    # Now, calculate the matching score for each disease based on matched symptoms
     disease_scores = {}
     for disease_entry in diseases_data:
         disease = disease_entry['Disease']
@@ -88,26 +110,46 @@ def match_symptoms(parsed_symptoms, diseases_data, top_n=3):
         # Calculate the similarity score between matched symptoms and the disease symptoms
         similarity_score = 0
         for matched_symptom in matched_symptoms:
-            if matched_symptom in disease_symptoms:  # If the matched symptom is in the disease's symptoms, add to the score
-                similarity_score += 1  # You can add weights here if necessary
+            if matched_symptom in disease_symptoms:  
+                similarity_score += 1 
 
         # Store the score for the disease
         disease_scores[disease] = similarity_score
 
-    # Sort diseases by their scores and return the top N diseases
     sorted_diseases = sorted(disease_scores.items(), key=lambda x: x[1], reverse=True)
-    top_diseases = sorted_diseases[:top_n]
+    #top_diseases = sorted_diseases[:top_n]
+    top_disease = sorted_diseases[0] if sorted_diseases else None
+    return top_disease
 
-    return top_diseases
-
-# User input for symptoms
+# Main execution flow
 user_input = input("Enter your condition: ")
 parsed_entities = parse_medical_entities(user_input)
 print("Parsed Medical Entities:", parsed_entities)
 
-# Fetch the disease data from MongoDB
+# Fetch medicine and disease data from MongoDB
+medicine_data = fetch_medicine_data()
 disease_data = fetch_disease_data()
 
-# Match parsed symptoms with the dataset and get top 3 probable diseases
-top_diseases = match_symptoms(parsed_entities, disease_data)
-print("Top 3 Probable Diseases:", top_diseases)
+# Check condition 1: If the parsed entity exists in the medicine-disease table
+medicines = check_medicine_disease(parsed_entities, medicine_data)
+
+if medicines:
+    # Print all medicines for the matched diseases
+    print(f"Medicines for the diseases: {', '.join(medicines)}")
+else:
+    # Condition 2: If no direct disease match, find the most probable disease from symptoms and return medicines
+    top_disease = match_symptoms(parsed_entities, disease_data)
+    if top_disease:
+        top_disease_name=[]
+        top_disease_name.append(top_disease[0])
+        matched_medicines = check_medicine_disease(top_disease_name, medicine_data)
+
+        if matched_medicines:
+            # Print all medicines for the top probable disease
+            print(f"Top Probable Disease: {top_disease_name}")
+            print(f"Medicines: {', '.join(matched_medicines)}")
+        else:
+            print(f"Top Probable Disease: {top_disease_name}")
+            print("No matching medicines found.")
+    else:
+        print("No matching disease found.")
