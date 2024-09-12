@@ -1,4 +1,3 @@
-# !pip install transformers torch pymongo fuzzywuzzy[speedup]
 import os
 from dotenv import load_dotenv
 import torch
@@ -11,7 +10,6 @@ load_dotenv()
 
 # Get the MongoDB connection string from the environment variables
 mongo_uri = os.getenv('mongo_uri')
-
 
 # Load the MedBERT model and tokenizer
 model_name = "blaze999/Medical-NER"
@@ -29,24 +27,22 @@ def parse_medical_entities(user_input):
     current_label = None
 
     for entity in ner_results:
-        word = entity['word'].replace("▁", "")  # Remove the subword indicator
+        word = entity['word'].replace("▁", "") 
         label = entity['entity']
 
-        # Handle 'B-' (Beginning) and 'I-' (Inside) tags
-        if label.startswith("B-"):  # Start of a new entity
+        if label.startswith("B-"):  
             if current_entity:
-                entities.append(" ".join(current_entity))  # Append the current entity
+                entities.append(" ".join(current_entity)) 
             current_entity = [word]
             current_label = label.split("-")[-1]
-        elif label.startswith("I-") and current_label == label.split("-")[-1]:  # Continuation of the current entity
+        elif label.startswith("I-") and current_label == label.split("-")[-1]:  
             current_entity.append(word)
-        else:  # Handle other labels or cases
+        else: 
             if current_entity:
-                entities.append(" ".join(current_entity))  # Append the current entity
+                entities.append(" ".join(current_entity))  
             current_entity = [word]
             current_label = label.split("-")[-1]
 
-    # Add the last entity
     if current_entity:
         entities.append(" ".join(current_entity))
 
@@ -77,21 +73,12 @@ def fetch_medicine_data():
 
 # Function to check if parsed entities match any disease in the medicine-disease table
 def check_medicine_disease(parsed_entities, medicine_data):
-    medicines_list = []  # Initialize an empty list to collect medicines
-    print(f"Disease: {parsed_entities}")
+    medicines_list = [] 
     for entity in parsed_entities:
         for entry in medicine_data:
-            # Check if the entity matches the Disease_ID
             if entity.lower() == entry["Disease_ID"].lower():
-                print(f"Disease: {entity}")
-                # medicines_list.append(entry["Medicine_Name"])  # Append all medicines for the matched disease
-                if "Medicine_Name" in entry:
-                    medicines_list.append(entry["Medicine_Name"])  # Append all medicines for the matched disease
-                else:
-                    print(f"Warning: Medicine_Name not found in document for {entity}")
+
     
-    
-    # Return the list of medicines or None if the list is empty
     return medicines_list if medicines_list else None
 
 # Function to match user input with dataset symptoms
@@ -101,7 +88,6 @@ def match_symptoms(parsed_symptoms, diseases_data):
         symptoms = [v for k, v in disease_entry.items() if k.startswith("Symptom") and v]
         all_symptoms.extend(symptoms)
 
-    # For each parsed symptom, find the closest matching symptom in the dataset using fuzzy matching
     matched_symptoms = []
     for symptom in parsed_symptoms:
         match = process.extractOne(symptom, all_symptoms, scorer=fuzz.token_sort_ratio)
@@ -113,13 +99,11 @@ def match_symptoms(parsed_symptoms, diseases_data):
         disease = disease_entry['Disease']
         disease_symptoms = [v for k, v in disease_entry.items() if k.startswith("Symptom") and v]
 
-        # Calculate the similarity score between matched symptoms and the disease symptoms
         similarity_score = 0
         for matched_symptom in matched_symptoms:
             if matched_symptom in disease_symptoms:  
                 similarity_score += 1 
 
-        # Store the score for the disease
         disease_scores[disease] = similarity_score
 
     sorted_diseases = sorted(disease_scores.items(), key=lambda x: x[1], reverse=True)
