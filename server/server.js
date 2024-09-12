@@ -4,6 +4,10 @@ const dotenv = require("dotenv");
 const mongooseConnect = require("./connect");
 const { errorMiddleWare } = require("./error");
 const PatientRouter = require("./routes/patient");
+const DoctorRouter = require("./routes/doctor");
+const cookieParser = require("cookie-parser");
+const { checkAuthentication } = require("./middlewares/user-auth");
+
 
 
 const app = express();
@@ -21,10 +25,25 @@ app.use(
   })
 );
 
+//middlewears
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/patient", PatientRouter);
+app.use("/doctor", DoctorRouter);
+
+app.use(checkAuthentication);
+
+app.get("/logout", (req, res) => {
+  if (req.cookies.uid != undefined) res.clearCookie("uid");
+  else res.clearCookie("aid");
+  return res.json({ msg: "Logout Successful" });
+});
+
 
 mongooseConnect();
 
