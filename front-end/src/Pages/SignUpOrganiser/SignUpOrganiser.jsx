@@ -8,8 +8,8 @@ const Signup = () => {
     name: "",
     email: "",
     phone: "",
-    organisationName: "",
-    yourRole:"",
+    hospitalName: "",
+    yourDomain:"",
     password: "",
   });
   const [error,setError]=useState("")
@@ -25,12 +25,12 @@ const Signup = () => {
       let name = data.name;
       let email = data.email;
       let phone = data.phone;
-      let organisationName = data.organisationName;
-      let yourRole=data.yourRole;
+      let hospitalName = data.hospitalName;
+      let yourDomain=data.yourDomain;
       let password = data.password;
       const  result = await axios.post(
         "http://localhost:5000/doctor/signup",
-        { name, email, phone, organisationName,yourRole, password },
+        { name, email, phone, hospitalName,yourDomain, password },
         {
           headers: {
             "Content-Type": "application/json",

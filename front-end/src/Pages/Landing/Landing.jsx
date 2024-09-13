@@ -10,7 +10,6 @@ const Landing = () => {
     <GetStarted />
     <GetInTouch />
     </>
-
   )
 }
 
