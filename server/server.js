@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const mongooseConnect = require("./connect");
 const { errorMiddleWare } = require("./error");
 const PatientRouter = require("./routes/patient");
+const CheckRouter = require("./routes/check");
 const DoctorRouter = require("./routes/doctor");
 const cookieParser = require("cookie-parser");
 const { checkAuthentication } = require("./middlewares/user-auth");
@@ -33,6 +34,8 @@ app.use(cookieParser());
 
 app.use("/patient", PatientRouter);
 app.use("/doctor", DoctorRouter);
+
+app.use("/checkuser", CheckRouter);
 
 app.use(checkAuthentication);
 app.get("/logout", (req, res) => {
