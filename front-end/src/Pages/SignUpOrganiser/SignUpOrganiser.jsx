@@ -8,8 +8,11 @@ const Signup = () => {
     name: "",
     email: "",
     phone: "",
+    gender:"",
+    address:"",
     hospitalName: "",
     yourDomain:"",
+    qualification:"",
     password: "",
   });
   const [error,setError]=useState("")
@@ -25,12 +28,15 @@ const Signup = () => {
       let name = data.name;
       let email = data.email;
       let phone = data.phone;
+      let gender = data.gender;
+      let address = data.address;
       let hospitalName = data.hospitalName;
       let yourDomain=data.yourDomain;
+      let qualification = data.qualification;
       let password = data.password;
       const  result = await axios.post(
         "http://localhost:5000/doctor/signup",
-        { name, email, phone, hospitalName,yourDomain, password },
+        { name, email, phone,gender,address, hospitalName,yourDomain,qualification, password },
         {
           headers: {
             "Content-Type": "application/json",
@@ -44,8 +50,11 @@ const Signup = () => {
         name: "",
         email: "",
         phone: "",
+        gender:"",
+        address:"",
         hospitalName: "",
         yourDomain:"",
+        qualification:"",
         password: "",
       });
       navigate("/doctorlogin");
@@ -103,6 +112,24 @@ const Signup = () => {
 			  maxLength={10}
               className={styles.input}
             />
+                 <input
+              type="text"
+              placeholder="Gender"
+              name="gender"
+              onChange={handleChange}
+              value={data.gender}
+              required
+              className={styles.input}
+            />
+                 <input
+              type="text"
+              placeholder="Clinic Address"
+              name="address"
+              onChange={handleChange}
+              value={data.address}
+              required
+              className={styles.input}
+            />
             <input
               type="text"
               placeholder="Hospital Name"
@@ -118,6 +145,15 @@ const Signup = () => {
               name="yourDomain"
               onChange={handleChange}
               value={data.yourDomain}
+              required
+              className={styles.input}
+            />
+                 <input
+              type="text"
+              placeholder="Qualification"
+              name="qualification"
+              onChange={handleChange}
+              value={data.qualification}
               required
               className={styles.input}
             />

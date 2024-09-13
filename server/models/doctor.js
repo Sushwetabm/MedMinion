@@ -19,11 +19,23 @@ const doctorSchema=new mongoose.Schema({
         minLength:[10,"Phone Number must contain only 10 digits"],
         maxLength:[10,"Phone Number must contain only 10 digits"],
     },
+    gender: {
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+    },
     hospitalName: {
         type: String,
         required: true
     },
     yourDomain: {
+        type: String,
+        required: true
+    },
+    qualification: {
         type: String,
         required: true
     },
