@@ -40,6 +40,7 @@ doctor_availability_collection = db['Doctors Availability Collection']
 delhi_ncr_doctors_collection = db['Delhi_ncr_doctors']
 appointments_collection = db['Appointments_Collection']
 
+
 def fetch_departments():
     # Fetch distinct departments (Speciality/Domain) from the collection
     departments = delhi_ncr_doctors_collection.distinct('Speciality/Domain')
