@@ -4,14 +4,17 @@ const DOCTOR = require("../models/doctor");
 const { setPatient } = require("../services/auth");
 
 async function HandledoctorSignUp(req, res, next) {
-  const { name, email, phone, hospitalName, yourDomain, password } = req.body;
+  const { name, email, phone, gender,address,hospitalName, yourDomain,qualification, password } = req.body;
 
   if (
     !name ||
     !email ||
     !phone ||
+    !gender ||
+    !address ||
     !hospitalName ||
     !yourDomain ||
+    !qualification ||
     !password
   ) {
     return next(new errorHandler("Please fill all the details!", 400));
@@ -30,8 +33,11 @@ async function HandledoctorSignUp(req, res, next) {
       name,
       email,
       phone,
+      gender,
+      address,
       hospitalName,
       yourDomain,
+      qualification,
       password: hashedPassword,
     });
     return res
