@@ -10,7 +10,7 @@ const Signup = () => {
     name: "",
     email: "",
     phone: "",
-    dateOfBirth: "",
+    age: "",
     password: "",
   });
   const [error,setError]=useState("")
@@ -23,15 +23,14 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("hihihi");
-      let Name = data.name;
+      let name = data.name;
       let email = data.email;
       let phone = data.phone;
-      let dateOfBirth = data.dateOfBirth;
+      let age = data.age;
       let password = data.password;
       const  result = await axios.post(
         "http://localhost:5000/patient/signup",
-        { Name, email, phone, dateOfBirth, password },
+        { name, email, phone, age, password },
         {
           headers: {
             "Content-Type": "application/json",
@@ -45,10 +44,10 @@ const Signup = () => {
         name: "",
         email: "",
         phone: "",
-        dateOfBirth: "",
+        age: "",
         password: "",
       });
-      navigate("/mainpage");
+      navigate("/patientlogin");
     } catch (error) {
 		if (
 			error.response &&
@@ -65,7 +64,7 @@ const Signup = () => {
       <div className={styles.signup_form_container}>
         <div className={styles.left}>
           <h1>Welcome Back</h1>
-          <Link to="/userlogin">
+          <Link to="/patientlogin">
             <button type="button" className={styles.white_btn}>
               Sign in
             </button>
@@ -93,7 +92,7 @@ const Signup = () => {
               className={styles.input}
             />
             <input
-              type="phone"
+              type="text"
               placeholder="Phone Number"
               name="phone"
               onChange={handleChange}
@@ -104,11 +103,11 @@ const Signup = () => {
               className={styles.input}
             />
             <input
-              type="Date"
-              placeholder="Date of Birth"
-              name="dateOfBirth"
+              type="number"
+              placeholder="Age"
+              name="age"
               onChange={handleChange}
-              value={data.dateOfBirth}
+              value={data.age}
               required
               className={styles.input}
             />

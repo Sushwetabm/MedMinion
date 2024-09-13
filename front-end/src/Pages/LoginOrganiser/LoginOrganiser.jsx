@@ -14,7 +14,7 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "http://localhost:5000/organiser/login";
+			const url = "http://localhost:5000/doctor/login";
 			const { result } = await axios.post(url, data, {
 				headers: {
 				  "Content-Type": "application/json",
@@ -22,7 +22,7 @@ const Login = () => {
 				},
 				withCredentials: true,
 			  });
-            navigate('/home_user')
+            navigate('/mainpage')
 		} catch (error) {
 			if (
 				error.response &&
@@ -66,7 +66,7 @@ const Login = () => {
 				</div>
 				<div className={styles.right}>
 					<h1>New Here ?</h1>
-					<Link to="/organisersignup">
+					<Link to="/doctorsignup">
 						<button type="button" className={styles.white_btn}>
 							Sign Up
 						</button>

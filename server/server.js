@@ -30,16 +30,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use("/patient", PatientRouter);
 app.use("/doctor", DoctorRouter);
 
 app.use(checkAuthentication);
-
 app.get("/logout", (req, res) => {
-  if (req.cookies.uid != undefined) res.clearCookie("uid");
+  if (req.cookies.pid != undefined) res.clearCookie("pid");
   else res.clearCookie("aid");
   return res.json({ msg: "Logout Successful" });
 });

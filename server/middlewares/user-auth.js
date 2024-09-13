@@ -1,18 +1,18 @@
-const { getUser } = require("../services/auth");
+const { getPatient } = require("../services/auth");
 const { errorHandler } = require("../error");
 
 async function checkAuthentication(req, res, next) {
-  const uid = req.cookies.uid;
-  if (!uid) {
+  const pid = req.cookies.pid;
+  if (!pid) {
     const aid = req.cookies?.aid;
     if (!aid) {
       return next(new errorHandler("First Login to the website", 400));
     }
-    const admin = getUser(aid);
-    req.user = admin;
+    const admin = getPatient(aid);
+    req.patient = admin;
   } else {
-    const user = getUser(uid);
-    req.user = user;
+    const patient = getPatient(pid);
+    req.patient = patient;
   }
   return next();
 }

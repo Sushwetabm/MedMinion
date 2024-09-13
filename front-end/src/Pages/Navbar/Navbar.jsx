@@ -36,26 +36,26 @@ const itemList = [
     },
     {
         text: "Signup",
-        to: "/usersignup"
+        to: "/patientsignup"
     },
     {
         text: "Login",
-        to: "/userlogin"
+        to: "/patientlogin"
     },
     {
         text: "OLogin",
-        to: "/organiserlogin"
+        to: "/doctorlogin"
     },
     {
         text: "OSignup",
-        to: "/organisersignup"
+        to: "/doctorsignup"
     }
 ];
 
 const Navbar = () => {
     const location = useLocation();
     
-    const showNavbarRoutes = ['/','/usersignup','/organisersignup','/userlogin','/organiserlogin']; // Add the routes where you want the Navbar to appear
+    const showNavbarRoutes = ['/','/patientsignup','/doctorsignup','/patientlogin','/doctorlogin']; // Add the routes where you want the Navbar to appear
     
     if (!showNavbarRoutes.includes(location.pathname)) {
         return null;

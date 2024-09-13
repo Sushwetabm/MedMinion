@@ -19,9 +19,9 @@ const patientSchema=new mongoose.Schema({
         minLength:[10,"Phone Number must contain only 10 digits"],
         maxLength:[10,"Phone Number must contain only 10 digits"],
     },
-    dateOfBirth: {
-        type: String,
-        required: true
+    age: {
+        type:Number,
+        required: true,
     },
     password:{
         type:String,
@@ -29,7 +29,7 @@ const patientSchema=new mongoose.Schema({
     },
     pdf:{
         type: String,
-        required:[true,"Please upload Patient pdf"],
+        
       }
 })
 

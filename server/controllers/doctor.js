@@ -1,7 +1,7 @@
 const { errorHandler } = require("../error");
 const bcrypt = require("bcryptjs");
-const DOCTOR = require("./doctor");
-const { setUser } = require("../services/auth");
+const DOCTOR = require("../models/doctor");
+const { setPatient } = require("../services/auth");
 
 async function HandledoctorSignUp(req, res, next) {
   const { name, email, phone, hospitalName, yourDomain, password } = req.body;
@@ -59,7 +59,7 @@ async function HandledoctorLogin(req, res, next) {
   if (!isMatch) {
     return next(new errorHandler("Incorrect Password!", 400));
   }
-  const token=setUser(result,"admin");
+  const token=setPatient(result,"admin");
   res.cookie('aid',token);
   return res.status(200).json({ success: true, message: "Login successfully" });
 }

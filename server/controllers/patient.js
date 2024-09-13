@@ -1,13 +1,16 @@
 const { errorHandler } = require("../error");
 const bcrypt = require("bcryptjs");
 const PATIENT = require("../models/patient");
+const { setPatient } = require("../services/auth");
+
 
 async function HandlePatientSignUp(req, res, next) {
-  
-  const { name, email, phone, dateOfBirth, password } = req.body;
+  // console.log(req.body);
+
+  const { name, email, phone, age, password } = req.body;
 
 
-  if (!name || !email || !phone || !dateOfBirth || !password) {
+  if (!name || !email || !phone || !age || !password) {
     return next(new errorHandler("Please fill all the details!", 400));
   }
   const result_email = await PATIENT.findOne({ email: email });
@@ -25,7 +28,7 @@ async function HandlePatientSignUp(req, res, next) {
       name,
       email,
       phone,
-      dateOfBirth,
+      age,
       password: hashedPassword,
     });
     return res
@@ -38,7 +41,6 @@ async function HandlePatientSignUp(req, res, next) {
       );
       return next(new errorHandler(validationErrors.join(" , ", 400)));
     }
-    return next(error);
   }
 }
 async function HandlePatientLogin(req, res, next) {
@@ -54,8 +56,8 @@ async function HandlePatientLogin(req, res, next) {
   if (!isMatch) {
     return next(new errorHandler("Incorrect Password!", 400));
   } 
-  const token=setUser(result,"user");
-  res.cookie('uid',token,{
+  const token=setPatient(result,"patient");
+  res.cookie('pid',token,{
     httpOnly:true,
   }); 
   return res.status(200).json({ success: true, message: "Login successfully" });

@@ -11,7 +11,7 @@ async function verifyToken(req, res, next) {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const doctor = await Doctor.findById(decoded.id);
+        const doctor = await Doctor.findById(decoded._id);
 
         if (!doctor) {
             return next(new errorHandler("Unauthorized access - Invalid token!", 401));

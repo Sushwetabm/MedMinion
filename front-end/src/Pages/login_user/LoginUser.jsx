@@ -23,7 +23,7 @@ const Login = () => {
         },
         withCredentials: true,
       });
-      navigate("/home_user");
+      navigate("/mainpage");
     } catch (error) {
       if (
         error.response &&
@@ -76,7 +76,7 @@ const Login = () => {
         </div>
         <div className={styles.right}>
           <h1>New Here ?</h1>
-          <Link to="/usersignup">
+          <Link to="/patientsignup">
             <button type="button" className={styles.white_btn}>
               Sign Up
             </button>

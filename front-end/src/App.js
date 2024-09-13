@@ -16,10 +16,10 @@ function App() {
       <Navbar />
         <Routes>
           <Route path='/' element={<Landing />}/>
-          <Route path="/usersignup" element={<Signup />} />
-          <Route path="/organisersignup" element={<OSignup />} />
-          <Route path="/userlogin" element={<Login />} />
-          <Route path="/organiserlogin" element={<OLogin />} />
+          <Route path="/patientsignup" element={<Signup />} />
+          <Route path="/doctorsignup" element={<OSignup />} />
+          <Route path="/patientlogin" element={<Login />} />
+          <Route path="/doctorlogin" element={<OLogin />} />
           <Route path="/mainpage" element={<MainPage/>}/>
 
         </Routes>

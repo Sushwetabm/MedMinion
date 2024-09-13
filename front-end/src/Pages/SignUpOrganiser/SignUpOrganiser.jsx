@@ -29,7 +29,7 @@ const Signup = () => {
       let yourRole=data.yourRole;
       let password = data.password;
       const  result = await axios.post(
-        "http://localhost:5000/organiser/signup",
+        "http://localhost:5000/doctor/signup",
         { name, email, phone, organisationName,yourRole, password },
         {
           headers: {
@@ -44,11 +44,11 @@ const Signup = () => {
         name: "",
         email: "",
         phone: "",
-        organisationName: "",
-        yourRole:"",
+        hospitalName: "",
+        yourDomain:"",
         password: "",
       });
-      navigate("/organiserlogin");
+      navigate("/doctorlogin");
     } catch (error) {
 		if (
 			error.response &&
@@ -65,7 +65,7 @@ const Signup = () => {
       <div className={styles.signup_form_container}>
         <div className={styles.left}>
           <h1>Welcome Back</h1>
-          <Link to="/organiserlogin">
+          <Link to="/doctorlogin">
             <button type="button" className={styles.white_btn}>
               Sign in
             </button>
@@ -105,19 +105,19 @@ const Signup = () => {
             />
             <input
               type="text"
-              placeholder="Organisation Name"
-              name="organisationName"
+              placeholder="Hospital Name"
+              name="hospitalName"
               onChange={handleChange}
-              value={data.organisationName}
+              value={data.hospitalName}
               required
               className={styles.input}
             />
                <input
               type="text"
-              placeholder="Your Role"
-              name="yourRole"
+              placeholder="Your Domain"
+              name="yourDomain"
               onChange={handleChange}
-              value={data.yourRole}
+              value={data.yourDomain}
               required
               className={styles.input}
             />

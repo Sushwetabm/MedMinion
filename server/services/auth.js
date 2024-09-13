@@ -1,17 +1,17 @@
 const jwt= require('jsonwebtoken')
 const sect = "MedMinion";
-function setUser(user,role) {
+function setPatient(patient,role) {
   return jwt.sign(
     {
-      _id: user._id,
-      email: user.email,
+      _id: patient._id,
+      email: patient.email,
       role:role
     },
     sect
   );
 }
 
-function getUser(token) {
+function getPatient(token) {
   if (!token) return null;
   try {
     return jwt.verify(token, sect);
@@ -21,6 +21,6 @@ function getUser(token) {
 }
 
 module.exports = {
-  setUser,
-  getUser,
+  setPatient,
+  getPatient,
 };
