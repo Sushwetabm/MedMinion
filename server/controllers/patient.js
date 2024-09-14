@@ -1,7 +1,7 @@
 const { errorHandler } = require("../error");
 const bcrypt = require("bcryptjs");
 const PATIENT = require("../models/patient");
-const { setPatient } = require("../services/auth");
+const { setPatient, getPatient } = require("../services/auth");
 
 
 async function HandlePatientSignUp(req, res, next) {
@@ -62,7 +62,21 @@ async function HandlePatientLogin(req, res, next) {
   }); 
   return res.status(200).json({ success: true, message: "Login successfully" });
 }
+
+async function getPatientInfo(req, res) {
+  const token=req.cookies.pid;
+  const patient=getPatient(token);
+  const mail=patient.email;
+  const event= await PATIENT.find({email:mail})
+  // console.log(event);
+  
+
+  return res.json({msg: event})
+}
+
+
 module.exports = {
   HandlePatientSignUp,
-  HandlePatientLogin
+  HandlePatientLogin,
+  getPatientInfo
 };

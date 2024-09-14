@@ -1,9 +1,56 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./AppointmentSection.css";
+import axios from 'axios';
 
 function AppointmentSection() {
   const [visibleBox, setVisibleBox] = useState(-1);
+  const [patientInfo, setPatientInfo] = useState(null); // State to hold patient information
   const boxesRef = useRef([]);
+
+  // useEffect(() => {
+  //   const fetchPatientInfo = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:5000/patient/details', {
+  //         headers: {
+  //           Authorization: `Bearer ${document.cookie.split('token=')[1]}` // Assuming you store the token in cookies
+  //         }
+  //       });
+  //       console.log(response.data)
+  //       setPatientInfo(response.data);
+  //     } catch (error) {
+  //       console.error('Error fetching patient information:', error);
+  //     }
+  //   };
+    
+  //   fetchPatientInfo();
+  // }, []);
+
+  const getEvents = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/patient/details", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        //   "Access-Control-Allow-Credentials": true,
+        },
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const patientInfo = await response.json();
+      setPatientInfo(patientInfo["msg"]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getEvents();
+  }, []); 
+
+
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -34,6 +81,15 @@ function AppointmentSection() {
         ref={(el) => (boxesRef.current[0] = el)}
       >
         <h3>PROFILE INFORMATION</h3>
+        { patientInfo && patientInfo.map(patient => (
+          <ul>
+            <li>{patient.name}</li>
+            <li>{patient.email}</li>
+            <li>{patient.phone}</li>
+            <li>{patient.age}</li>
+
+          </ul>
+        ))}
         <button className="appointment-btn">Your Appointments</button>
       </div>
       <div
