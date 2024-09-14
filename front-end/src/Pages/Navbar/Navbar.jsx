@@ -35,19 +35,11 @@ const itemList = [
         to: "/"
     },
     {
-        text: "Signup",
+        text: "Patient",
         to: "/patientsignup"
     },
     {
-        text: "Login",
-        to: "/patientlogin"
-    },
-    {
-        text: "OLogin",
-        to: "/doctorlogin"
-    },
-    {
-        text: "OSignup",
+        text: "Doctor",
         to: "/doctorsignup"
     }
 ];
@@ -66,16 +58,17 @@ const Navbar = () => {
             component="nav"
             position="sticky"
             sx={{
-                backgroundColor: 'orange',
+                backgroundColor: 'powderblue',
             }}
             elevation={0}
         >
             <StyledToolbar>
                 <Typography
-                    variant="h6"
+                    variant="h5"
                     component="h2"
+                    color={'black'}
                 >
-                    PartyPenguin
+                    MedMinion
                 </Typography>
                 <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
                     <DrawerItem />
@@ -87,10 +80,11 @@ const Navbar = () => {
                             <ListItem key={text}>
                                 <ListItemButton component={Link} to={item.to}
                                     sx={{
-                                        color: '#fff',
+                                        color: 'black',
+                                        
                                         "&:hover": {
                                             backgroundColor: 'transparent',
-                                            color: '#1e2a5a',
+                                            color: 'orange',
                                         }
                                     }}
                                 >

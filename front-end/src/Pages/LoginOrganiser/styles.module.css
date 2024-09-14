@@ -8,12 +8,14 @@ login_container {
 }
 
 .login_form_container {
-	width: 900px;
-	height: 500px;
+	width: 55rem;
+	height: 25rem;
 	display: flex;
 	border-radius: 10px;
 	box-shadow: 0px 3px 3px -2px rgb(0 0 0 / 20%),
 		0px 3px 4px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
+	margin: 2rem;
+	margin-left: 13rem;
 }
 
 .left {
@@ -66,7 +68,7 @@ login_container {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	background-color: #3bb19b;
+	background-color: orange;
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
 }
@@ -92,7 +94,7 @@ login_container {
 }
 
 .green_btn {
-	background-color: #3bb19b;
+	background-color: orange;
 	color: white;
 	margin: 10px;
 }

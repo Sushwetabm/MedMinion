@@ -7,8 +7,8 @@ import {
 } from '@mui/material'
 import Title from './Title'
 // img
-import imgDetail from '../../img/bg_img.jpg';
-import imgDetail2 from '../../img/bg_img.jpg';
+import imgDetail from '../../img/img.png';
+import imgDetail2 from '../../img/img2.png';
 
 
 const GetStarted = () => {
@@ -16,7 +16,7 @@ const GetStarted = () => {
     const CustomGridItem = styled(Grid) ({
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'center'
     })
     
     const CustomTypography = styled(Typography) ({
@@ -31,8 +31,8 @@ const GetStarted = () => {
             
         <Grid container spacing={{ xs: 4, sm: 4, md: 0 }}   
         sx={{
-            py: 10,
-            px: 2,
+            py: 0.5,
+            px: 1,
              
         }}
         >
@@ -47,15 +47,17 @@ const GetStarted = () => {
                 >
                     <Title
                     text={
-                        'Experience the Laughter'
+                        'MedMinion for Patients'
                     }
                     textAlign={'start'}
                     />
                     <CustomTypography>
-                        Get tickets and Enjoy the laughter full comedy shows<br />
-                        With your friends and family <br />
-                        Near you.
-                        
+                    We help you manage your healthcare effortlessly by providing:<br></br>
+                    1. Easy appointment booking, rescheduling, and cancellation.<br></br>
+                    2. A personalized dashboard displaying all your appointment details.<br></br>
+                    3. Access to your medical test results, if available.<br></br>
+                    4. A simple, user-friendly interface for managing your healthcare needs.<br></br>
+                    5. A streamlined experience that saves time and reduces hassle.  
                     </CustomTypography> 
                 </Box>
 
@@ -64,7 +66,8 @@ const GetStarted = () => {
             <Grid item xs={12} sm={4} md={6}>
                 <img src={imgDetail} alt="" 
                 style={{
-                    width: '100%',
+                    marginTop:0,
+                    width: '100%'
                 }}
                 />
             </Grid>
@@ -77,6 +80,7 @@ const GetStarted = () => {
                 <img src={imgDetail2} alt="" 
                 style={{ 
                     width: "100%",
+                    marginTop:0
                 }}
                 />
             </Grid>
@@ -88,18 +92,22 @@ const GetStarted = () => {
             >
                 <Box component='article'
                 sx={{
+                    py:2,
                     px: 4,
                 }}
                 >
                     <Title
                     text={
-                        'Dance Shows'
+                        'MedMinion for Doctors'
                         
                     }
                     textAlign={'start'}
                     />
                     <CustomTypography>
-                        Book tickets in advance for the dance shows<br /> 
+                    Our platform offers a comprehensive solution that allows you to:<br></br>
+                    1. View and organize your appointments in real-time.<br></br>
+                    2. Automate prescription management, so you don’t have to write the same medications for different patients repeatedly.<br></br>
+                    3. Upload and organize patients' test results effortlessly, ensuring their records are up-to-date.<br></br> 
                         
                     </CustomTypography>
                 </Box>
