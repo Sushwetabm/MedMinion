@@ -1,10 +1,12 @@
-from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from datetime import datetime, timedelta
 import os
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}) 
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -27,6 +29,7 @@ def get_day_of_week(date):
 @app.route('/fetch_departments', methods=['GET'])
 def fetch_departments():
     departments = delhi_ncr_doctors_collection.distinct('Speciality/Domain')
+    print(departments)
     return jsonify(departments)
 
 @app.route('/fetch_locations', methods=['GET'])
