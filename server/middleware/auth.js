@@ -25,3 +25,31 @@ async function verifyToken(req, res, next) {
 }
 
 module.exports = { verifyToken };
+
+// const jwt = require('jsonwebtoken');
+// const { errorHandler } = require('../error');
+// const Doctor = require('../models/doctor');
+
+// async function verifyToken(req, res, next) {
+//     const token = req.headers.authorization?.split(' ')[1]; // Extract token from "Bearer [token]"
+
+//     if (!token) {
+//         return next(new errorHandler("Unauthorized access - No token provided!", 401));
+//     }
+
+//     try {
+//         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//         const doctor = await Doctor.findById(decoded._id);
+
+//         if (!doctor) {
+//             return next(new errorHandler("Unauthorized access - Invalid token!", 401));
+//         }
+
+//         req.doctor = doctor; 
+//         next();
+//     } catch (error) {
+//         return next(new errorHandler("Unauthorized access - Invalid token!", 401));
+//     }
+// }
+
+// module.exports = { verifyToken };

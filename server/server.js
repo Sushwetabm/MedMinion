@@ -35,6 +35,7 @@ app.use(cookieParser());
 app.use("/patient", PatientRouter);
 app.use("/doctor", DoctorRouter);
 
+
 app.use("/checkuser", CheckRouter);
 
 app.use(checkAuthentication);

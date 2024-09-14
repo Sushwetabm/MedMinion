@@ -5,6 +5,7 @@ function setPatient(patient,role) {
     {
       _id: patient._id,
       email: patient.email,
+      name:patient.name,
       role:role
     },
     sect
