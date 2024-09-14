@@ -4,7 +4,6 @@ import DoctorSection from "../../components/DoctorSection";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import Header from "../../components/Header";
-import AboutUs from "../../components/AboutUs";
 import "./MainPage.css"; 
 import {useNavigate } from "react-router-dom";
 
@@ -42,7 +41,6 @@ function MainPage() {
         <div className="App">
           <Navbar />
           <Header />
-          <AboutUs />
           {isUser ?   <AppointmentSection />:<DoctorSection />}
           <Footer />
         </div>
