@@ -30,18 +30,18 @@
 /* Colors matching your reference image */
 .box1 {
   background-color: #00aaff;
-  h3{
+  h3 {
     color: black;
   }
-  p{
-    color:white;
+  p {
+    color: white;
   }
 }
 
 .box2 {
   background-color: #14274e;
   color: white;
-  h3{
+  h3 {
     color: white;
   }
 }
@@ -49,7 +49,7 @@
 .box3 {
   background-color: #ff814c;
   color: white;
-  h3{
+  h3 {
     color: black;
   }
 }
