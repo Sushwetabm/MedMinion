@@ -47,26 +47,19 @@ function Navbar() {
             <a href="#home">Home</a>
           </li>
           <li>
-            <a href="#about">About</a> {/* Links to About Us section */}
-          </li>
-          <li>
             <a href="#services">Service</a>
           </li>
           <li>
             <a href="#contact">Contact</a>
           </li>
-          <li>
-            <button
-              onClick={handleLogout}
-              className="block px-4 py-2 text-gray-900 hover:bg-gray-100"
-            >
-              Sign Out
-            </button>
-          </li>
         </ul>
         <div className="nav-btns">
-          <button className="btn-appointment">Appointment</button>
+            <button onClick={handleLogout}
+              className="btn-appointment">
+              Sign Out
+            </button>
         </div>
+        
       </nav>
     </>
   );

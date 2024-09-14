@@ -4,7 +4,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #fff;
+  background-color:powderblue;
   position: relative;
   z-index: 1;
   width: 100%;
@@ -39,18 +39,19 @@
 
 .nav-links a {
   text-decoration: none;
-  color: #333;
+  color: black;
   font-size: 16px;
 }
 
 .nav-btns {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin-right: 50px;
 }
 
 .btn-appointment {
-  background-color: #00aaff;
+  background-color:orange;
   color: white;
   padding: 10px 20px;
   border: none;

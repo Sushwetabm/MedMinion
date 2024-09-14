@@ -1,5 +1,5 @@
 .footer {
-  background-color: #00204a; /* Dark background */
+  background-color:powderblue; /* Dark background */
   color: #fff;
   padding: 20px 10px; /* Reduce the padding */
   text-align: center;
@@ -14,46 +14,48 @@
 
 .footer-section {
   flex: 1;
-  padding: 10px; /* Reduce padding for each section */
+  padding: 10px;
 }
 
 .footer-section h3 {
-  font-size: 20px; /* Slightly smaller heading size */
-  margin-bottom: 10px; /* Reduce margin below heading */
+  font-size: 20px; 
+  margin-bottom: 10px; 
+  color: #00204a;
 }
 
 .footer-section p {
-  margin: 3px 0; /* Reduce margin between paragraphs */
-  font-size: 14px; /* Slightly smaller text */
+  margin: 3px 0; 
+  font-size: 14px; 
+  color: #00204a
 }
 
 .social-icons {
   display: flex;
   justify-content: center;
-  gap: 10px; /* Slightly reduce the gap between icons */
+  gap: 10px; 
 }
 
 .social-icon {
   background-color: #fff;
   color: #00204a;
-  padding: 8px; /* Reduce padding for the icons */
+  padding: 8px; 
   border-radius: 50%;
-  font-size: 18px; /* Slightly smaller icon size */
+  font-size: 18px; 
   transition: background-color 0.3s ease;
 }
 
 .social-icon:hover {
-  background-color: #00aaff;
+  background-color: orange;
   color: #fff;
 }
 
 .footer-bottom {
-  margin-top: 10px; /* Reduce space above bottom text */
+  margin-top: 10px; 
 }
 
 .footer-bottom p {
-  font-size: 12px; /* Slightly smaller text for the bottom section */
-  color: #bbb;
+  font-size: 12px;
+  color: black;
 }
 
 @media (max-width: 768px) {

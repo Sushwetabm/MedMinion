@@ -17,46 +17,28 @@ const GetInTouch = () => {
         alignItems='center'
         sx={{
             py: 10,
-            mx: 6,
+            mx: 0,
+            backgroundColor:'orange'
         }}
         >
             <Title 
             text={
-                'Contact us to buy property'
+                'CONTACT US TO KNOW MORE'
                 } 
             textAlign={'center'}
             />
             <Paragraph 
             text={
-                'It is our commitment to ensure an enjoyable \
-                 experience for you. \
-                If you have any queries or issues. Contact Us'
+                <>
+                    Rishav Sachdeva: sachdevarishav449@gmail.com <br />
+                    Sushweta Bhattacharya: sushwetabm@gmail.com <br />
+                    Hansawani Saini: hansawani07@gmail.com
+                </>
             }
             maxWidth = {'sm'}
             mx={0}
-            textAlign={'center'}
+            textAlign={'center'}    
             />
-            <Button component={Link} 
-            to={'/contact'}
-            variant="contained" 
-            type="submit"
-            size="medium"
-            sx= {{ 
-                fontSize: '0.9rem',
-                textTransform: 'capitalize', 
-                py: 2,
-                px: 4,
-                mt: 3, 
-                mb: 2,
-                borderRadius: 0,
-                backgroundColor: '#14192d',
-                "&:hover": {
-                    backgroundColor: '#1e2a5a',
-                }
-            }}
-            >
-                get in touch
-            </Button>
  
         </Stack>
     )

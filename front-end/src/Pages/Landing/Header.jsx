@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, styled, Typography } from "@mui/material";
+import { Box, styled, Typography } from "@mui/material";
 import { Link } from 'react-router-dom'
 
 import headerImg from '../../img/bg_img.jpg';
@@ -7,7 +7,7 @@ import headerImg from '../../img/bg_img.jpg';
 const Header = () => {
 
     const CustomBox = styled(Box) (({ theme }) => ({
-        minHeight: '80vh',
+        minHeight: '69vh',
         display: 'flex',
         justifyContent: 'center',
         gap: theme.spacing(2),
@@ -43,9 +43,12 @@ const Header = () => {
                 sx={{
                     fontWeight: 700,
                     color: '#fff',
+                    textAlign: 'center',
+                    fontFamily: 'revert',
+                    marginRight:4
                 }}
                 >
-                Welcome to PartyPenguin
+                Welcome to MedMinion
                 </Typography>
 
                 <Typography
@@ -53,62 +56,19 @@ const Header = () => {
                 component='p'
                 sx={{
                     py: 3,
-                    lineHeight: 1.6,
                     color: '#fff',
+                    fontWeight: 500,
+                    color: '#fff',
+                    textAlign: 'center',
+                    fontFamily: 'revert',
+                    marginRight:4,
+                    fontSize:18
                 }}
                 >
-                    Book or Reserve tickets to your favourite Shows near you
+                    Here, we automate your clinic’s manual tasks for seamless healthcare management!
                 </Typography>
 
-                <Box>
-                    <Button 
-                    variant='contained'
-                    sx={{
-                        mr: 2,
-                        px: 4, 
-                        py: 1,
-                        fontSize: '0.9rem',
-                        textTransform: 'capitalize',
-                        borderRadius: 0,
-                        borderColor: '#14192d',
-                        color: '#fff',
-                        backgroundColor: '#14192d',
-                        "&&:hover": {
-                            backgroundColor: "#343a55"
-                        },
-                        "&&:focus": {
-                            backgroundColor: "#343a55"
-                        }
-                    }}
-                    >
-                        buy now
-                    </Button>
-                    <Button 
-                    component={Link} 
-                    to={'/about'}
-                    variant='outlined'
-                    sx={{
-                        px: 4, 
-                        py: 1,
-                        fontSize:'0.9rem',
-                        textTransform: 'capitalize',
-                        borderRadius: 0,
-                        color: '#fff',
-                        backgroundColor: 'transparent',
-                        borderColor: '#fff',
-                        "&&:hover": {
-                            color: '#343a55',
-                            borderColor: '#343a55',
-                        },
-                        "&&:focus": {
-                            color: '#343a55',
-                            borderColor: '#343a55',
-                        }
-                    }}
-                    >
-                        explore
-                    </Button>
-                </Box>
+
             </BoxText>
 
             <Box sx={theme => ({
@@ -129,8 +89,9 @@ const Header = () => {
                 alt="headerImg"
                 style={{ 
                     width: "100%",
+                    height:'100%',
                     marginBottom: 0,
-                    overflow:'hidden',
+                    overflow:'hidden'
                 }}
                 />
             </Box>

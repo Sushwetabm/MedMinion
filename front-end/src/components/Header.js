@@ -5,12 +5,8 @@ function Header() {
   return (
     <header className="header">
       <div className="header-content">
-        <h1>Take The Best Quality Health Treatment</h1>
-        <p>Keep yourself healthy with MedMinions</p>
-        <div className="header-buttons">
-          <button className="btn-primary">Appointment</button>
-          <button className="btn-secondary">Contact Us</button>
-        </div>
+        <h1>Welcome back !</h1>
+        <h3>MedMinion is here to streamline your day – manage & schedule appointments,<br></br> handle prescriptions, and access medical records effortlessly</h3>
       </div>
     </header>
   );
