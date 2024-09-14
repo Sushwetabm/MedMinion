@@ -3,7 +3,7 @@ import axios from 'axios';
 import Select from 'react-select';
 
 const RescheduleAppointment = () => {
-    const [patientId, setPatientId] = useState('');
+    const [patientEmail, setPatientEmail] = useState('');
     const [appointments, setAppointments] = useState([]);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [newAppointmentDate, setNewAppointmentDate] = useState('');
@@ -14,19 +14,24 @@ const RescheduleAppointment = () => {
     // Fetch appointments after patient ID is entered
     const fetchAppointments = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/fetch_appointments', { patient_id: patientId });
-            if (response.data.length > 0) {
-                setAppointments(response.data);
+            const response = await axios.post('http://localhost:5000/fetch_appointments', { patient_email: patientEmail });
+            
+            if (response.data.appointments && response.data.appointments.length > 0) {
+                setAppointments(response.data.appointments);
                 setError('');
+            } else if (response.data.error) {
+                setError(response.data.error);
             } else {
                 setAppointments([]);
                 setError('No scheduled appointments found.');
             }
         } catch (error) {
-            console.error('Error fetching appointments:', error);
-            setError('Error fetching appointments.');
+            console.error('Error fetching appointments:', error.response);  // Check the actual response
+            setError(error.response ? error.response.data.error : 'Error fetching appointments.');
         }
     };
+    
+    
 
     // Handle rescheduling the selected appointment
     const handleReschedule = async () => {
@@ -37,7 +42,7 @@ const RescheduleAppointment = () => {
 
         try {
             const response = await axios.post('http://localhost:5000/reschedule_appointment_flow', {
-                patient_id: patientId,
+                patient_email: patientEmail,
                 new_appointment_date: newAppointmentDate,
                 new_appointment_time: newAppointmentTime
             });
@@ -64,9 +69,9 @@ const RescheduleAppointment = () => {
                 <label>Patient Email:</label>
                 <input
                     type="email"
-                    value={patientId}
-                    onChange={(e) => setPatientId(e.target.value)}
-                    placeholder="Enter Patient ID"
+                    value={patientEmail}
+                    onChange={(e) => setPatientEmail(e.target.value)}
+                    placeholder="Enter Patient Email"
                     required
                 />
                 <button onClick={fetchAppointments}>Fetch Appointments</button>
