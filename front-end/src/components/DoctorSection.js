@@ -7,16 +7,47 @@ function DoctorSection() {
   const [symptoms, setSymptoms] = useState([]);
   const [currentSymptom, setCurrentSymptom] = useState("");
   const [disease, setDisease] = useState("");
+  const [detectedDisease, setDetectedDisease] = useState(""); // For displaying disease
+  const [detectedMedicines, setDetectedMedicines] = useState([]); // For displaying medicines
   const [appointments, setAppointments] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [patientName, setPatientName] = useState("");
   const [patientID, setPatientID] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
 
-  const addSymptom = () => {
+  // Function to add symptoms and call backend API to detect disease
+  const addSymptom = async () => {
     if (currentSymptom) {
-      setSymptoms([...symptoms, currentSymptom]);
+      const updatedSymptoms = [...symptoms, currentSymptom];
+      setSymptoms(updatedSymptoms);
       setCurrentSymptom("");
+
+      // Use the correct API route for disease detection
+      const response = await fetch("http://localhost:5000/get_medicine", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: updatedSymptoms.join(", ") }), // Send symptoms as input
+      });
+
+      const data = await response.json();
+      setDetectedDisease(data.disease); // Detect disease
+    }
+  };
+
+  const handleDiseaseInput = async (e) => {
+    const diseaseInput = e.target.value;
+    setDisease(diseaseInput);
+
+    if (diseaseInput) {
+      // Use the same route to fetch medicines for disease input
+      const response = await fetch("http://localhost:5000/get_medicine", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: diseaseInput }), // Send disease as input
+      });
+
+      const data = await response.json();
+      setDetectedMedicines(data.medicines || []);
     }
   };
 
@@ -52,6 +83,12 @@ function DoctorSection() {
                 <li key={index}>{symptom}</li>
               ))}
             </ul>
+            {detectedDisease && (
+              <div>
+                <h4>Detected Disease</h4>
+                <p>{detectedDisease}</p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -60,12 +97,23 @@ function DoctorSection() {
           <input
             type="text"
             value={disease}
-            onChange={(e) => setDisease(e.target.value)}
+            onChange={handleDiseaseInput}
             placeholder="Enter disease"
           />
           <div className="output-box">
             <h4>Disease Input</h4>
             <p>{disease}</p>
+            {Array.isArray(detectedMedicines) &&
+              detectedMedicines.length > 0 && (
+                <div>
+                  <h4>Detected Medicines</h4>
+                  <ul>
+                    {detectedMedicines.map((medicine, index) => (
+                      <li key={index}>{medicine}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
           </div>
         </div>
       </div>
