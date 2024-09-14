@@ -8,6 +8,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "../src/Pages/MainPage/MainPage.jsx";
 import Navbar from "../src/Pages/Navbar/Navbar.jsx";
 import Booking from "../src/Pages/forms/booking.js";
+import Reschedule from "../src/Pages/forms/reschedule.js"
+import Cancel from "../src/Pages/forms/cancel.js"
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
           <Route path="/doctorlogin" element={<OLogin />} />
           <Route path="/mainpage" element={<MainPage/>}/>
           <Route path="/bookingpage" element={<Booking/>}/>
+          <Route path="/reschedulepage" element={<Reschedule/>}/>
+          <Route path="/cancelpage" element={<Cancel/>}/>
         </Routes>
       </BrowserRouter>
     </div>
