@@ -160,7 +160,7 @@ def reschedule_appointment_flow():
     if not appointments:
         return jsonify({"error": "No scheduled appointments found."}), 404
 
-    selected_appointment = appointments[0]  # Assuming we take the first appointment for simplicity
+    selected_appointment = appointments[0] 
 
     doctor_name = selected_appointment['doctor_name']
     old_appointment_date = selected_appointment['appointment_date']
