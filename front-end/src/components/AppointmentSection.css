@@ -29,18 +29,29 @@
 
 /* Colors matching your reference image */
 .box1 {
-  background-color: #00aaff; /* Light blue for Opening Hours */
-  color: white;
+  background-color: #00aaff;
+  h3{
+    color: black;
+  }
+  p{
+    color:white;
+  }
 }
 
 .box2 {
-  background-color: #14274e; /* Dark blue for Search A Doctor */
+  background-color: #14274e;
   color: white;
+  h3{
+    color: white;
+  }
 }
 
 .box3 {
-  background-color: #ff814c; /* Orange for Make Appointment */
+  background-color: #ff814c;
   color: white;
+  h3{
+    color: black;
+  }
 }
 
 /* Inputs and buttons styling */
@@ -64,12 +75,14 @@ select {
 /* Button styling */
 button.search-btn,
 button.appointment-btn {
+  margin-bottom: 1rem;
   width: 100%;
   padding: 12px;
   background-color: white;
   border: none;
   color: #333;
   font-weight: bold;
+  font-size: 1rem;
   border-radius: 5px;
   cursor: pointer;
 }

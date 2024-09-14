@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
-
+import './BookingStyles.css';
 // Component for booking an appointment
 const BookAppointment = () => {
     const [departments, setDepartments] = useState([]);
@@ -98,9 +98,9 @@ const BookAppointment = () => {
     };
 
     return (
-        <div>
+        <div className="booking-container">
             <h1>Book an Appointment</h1>
-            <div>
+            <div className="select-container">
                 <label>Select Department:</label>
                 <Select
                     options={departments.map(dept => ({ value: dept, label: dept }))}
@@ -109,7 +109,7 @@ const BookAppointment = () => {
                 />
             </div>
             {selectedDepartment && (
-                <div>
+                <div className="select-container">
                     <label>Select Location:</label>
                     <Select
                         options={locations.map(loc => ({ value: loc, label: loc }))}
@@ -119,7 +119,7 @@ const BookAppointment = () => {
                 </div>
             )}
             {selectedDepartment && (
-                <div>
+                <div className="select-container">
                     <label>Select Doctor:</label>
                     <Select
                          options={doctors.map(doc => ({
@@ -133,7 +133,7 @@ const BookAppointment = () => {
                 </div>
             )}
             {selectedDoctor && availability.length > 0 && (
-                <div>
+                <div className="select-container">
                     <label>Select Date:</label>
                     <Select
                         options={availability.map(avail => ({ value: avail.date, label: avail.date }))}
@@ -141,7 +141,7 @@ const BookAppointment = () => {
                         value={selectedDate}
                     />
                     {selectedDate && (
-                        <div>
+                        <div className="select-container">
                             <label>Select Time Slot:</label>
                             <Select
                                 options={availability.find(avail => avail.date === selectedDate.value)?.available_times.map(time => ({ value: time, label: time }))}
