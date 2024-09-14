@@ -29,7 +29,6 @@ def get_day_of_week(date):
 @app.route('/fetch_departments', methods=['GET'])
 def fetch_departments():
     departments = delhi_ncr_doctors_collection.distinct('Speciality/Domain')
-    print(departments)
     return jsonify(departments)
 
 @app.route('/fetch_locations', methods=['GET'])
@@ -38,13 +37,29 @@ def fetch_locations():
     locations = delhi_ncr_doctors_collection.distinct('Clinic Address', {"Speciality/Domain": department})
     return jsonify(locations)
 
+# @app.route('/fetch_doctors', methods=['GET'])
+# def fetch_doctors():
+#     department = request.args.get('department')
+#     print(f"Received department: {department}")  # Log department to see if it's coming through correctly
+    
+#     doctors = delhi_ncr_doctors_collection.distinct(' Doctors Name', {"Speciality/Domain": department})
+    
+#     if not doctors:
+#         print(f"No doctors found for department: {department}")  # Log if no doctors found
+        
+#     return jsonify(doctors)
+
 @app.route('/fetch_doctors', methods=['GET'])
 def fetch_doctors():
-    department = request.args.get('department')
-    location = request.args.get('location')
-    doctors = delhi_ncr_doctors_collection.find({"Speciality/Domain": department, "Clinic Address": location},
-                                                {"Doctors Name": 1, "Contact": 1, "_id": 0})
-    return jsonify(list(doctors))
+    department = request.args.get('department')  # Get department from query params
+    doctors = delhi_ncr_doctors_collection.find(
+        {"Speciality/Domain": department}, 
+        {" Doctors Name": 1, "Contact": 1, "_id": 0}  # Return both name and contact
+    )
+    return jsonify(list(doctors))  # Convert the list of doctors (with contact) to JSON
+
+
+
 
 @app.route('/fetch_doctor_availability', methods=['GET'])
 def fetch_doctor_availability():
