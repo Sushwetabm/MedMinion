@@ -41,7 +41,7 @@ function AppointmentSection() {
         ref={(el) => (boxesRef.current[1] = el)}
       >
         <h3>APPOINTMENT</h3>
-        <button className="search-btn">Book</button><br></br>
+        <a href='/bookingpage'><button className="search-btn">Book</button></a><br></br>
         <button className="search-btn">Reschedule</button><br></br>
         <button className="search-btn">Cancel</button><br></br>
       </div>
