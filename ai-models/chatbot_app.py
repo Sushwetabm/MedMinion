@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from bson import ObjectId
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}) 
@@ -57,10 +58,7 @@ def fetch_doctors():
         {"Speciality/Domain": department}, 
         {" Doctors Name": 1, "Contact": 1, "_id": 0}  # Return both name and contact
     )
-    return jsonify(list(doctors))  # Convert the list of doctors (with contact) to JSON
-
-
-
+    return jsonify(list(doctors))
 
 @app.route('/fetch_doctor_availability', methods=['GET'])
 def fetch_doctor_availability():
@@ -101,6 +99,39 @@ def fetch_doctor_availability():
             })
 
     return jsonify(availability)
+
+@app.route('/fetch_appointments', methods=['POST'])
+def fetch_appointments():
+    try:
+        data = request.json
+        print(f"Received data: {data}") 
+
+        patient_email = data.get('patient_email')
+        if not patient_email:
+            return jsonify({"error": "patient_email not provided."}), 400
+
+        # Fetch all scheduled appointments for the patient
+        appointments = list(appointments_collection.find({"patient_email": patient_email, "status": "Scheduled"}))
+
+        if not appointments:
+            return jsonify({"error": "No scheduled appointments found."}), 404
+
+        formatted_appointments = [
+            {
+                "_id": str(app["_id"]),
+                "doctor_name": app["doctor_name"],
+                "appointment_date": app["appointment_date"],
+                "appointment_time": app["appointment_time"],
+                "clinic_location": app["clinic_location"]
+            }
+            for app in appointments
+        ]
+
+        return jsonify({"appointments": formatted_appointments})
+    except Exception as e:
+        print(f"Error: {e}")  # Log the error
+        return jsonify({"error": str(e)}), 500
+
 
 @app.route('/book_appointment', methods=['POST'])
 def book_appointment():
@@ -212,44 +243,57 @@ def reschedule_appointment_flow():
 @app.route('/cancel_appointment_flow', methods=['POST'])
 def cancel_appointment_flow():
     data = request.json
-    patient_email = data['patient_email']
+    patient_email = data.get('patient_email')
+    appointment_id = data.get('appointment_id')
 
-    # Fetch scheduled appointments
-    appointments = list(appointments_collection.find({"patient_email": patient_email, "status": "Scheduled"}))
-    
-    if not appointments:
-        return jsonify({"error": "No scheduled appointments found."}), 404
+    # Validate input
+    if not patient_email or not appointment_id:
+        return jsonify({"error": "Patient email and appointment ID are required."}), 400
 
-    selected_appointment = appointments[0]
+    try:
+        # Fetch the appointment by ID
+        selected_appointment = appointments_collection.find_one({"_id": ObjectId(appointment_id), "patient_email": patient_email, "status": "Scheduled"})
 
-    doctor_name = selected_appointment['doctor_name']
-    appointment_date = selected_appointment['appointment_date']
-    appointment_time = selected_appointment['appointment_time']
+        if not selected_appointment:
+            return jsonify({"error": "No scheduled appointment found."}), 404
 
-    # Update appointment status
-    appointments_collection.update_one(
-        {"_id": selected_appointment['_id']},
-        {"$set": {"status": "Canceled"}}
-    )
+        doctor_name = selected_appointment['doctor_name']
+        appointment_date = selected_appointment['appointment_date']
+        appointment_time = selected_appointment['appointment_time']
 
-    # Free up time slot
-    doctor_schedule = doctor_availability_collection.find_one({"doctor_name": {"$regex": doctor_name.strip(), "$options": "i"}})
-    day_name = get_day_of_week(datetime.strptime(appointment_date, '%Y-%m-%d'))
-
-    if doctor_schedule and "availability" in doctor_schedule and day_name in doctor_schedule["availability"]:
-        time_slots = doctor_schedule["availability"][day_name]
-
-        if appointment_time in time_slots and isinstance(time_slots[appointment_time], list):
-            for i in range(len(time_slots[appointment_time])):
-                if time_slots[appointment_time][i] == 1:
-                    time_slots[appointment_time][i] = 0
-                    break
-
-        doctor_availability_collection.update_one(
-            {"doctor_name": {"$regex": doctor_name.strip(), "$options": "i"}},
-            {"$set": {f"availability.{day_name}.{appointment_time}": time_slots[appointment_time]}}
+        # Update appointment status to "Canceled"
+        appointments_collection.update_one(
+            {"_id": ObjectId(appointment_id)},
+            {"$set": {"status": "Canceled"}}
         )
-    return jsonify({"message": "Appointment canceled successfully."})
+
+        # Free up time slot in the doctor's schedule
+        doctor_schedule = doctor_availability_collection.find_one(
+            {"doctor_name": {"$regex": doctor_name.strip(), "$options": "i"}}
+        )
+        day_name = get_day_of_week(datetime.strptime(appointment_date, '%Y-%m-%d'))
+
+        if doctor_schedule and "availability" in doctor_schedule and day_name in doctor_schedule["availability"]:
+            time_slots = doctor_schedule["availability"][day_name]
+
+            # Free up the time slot if it exists
+            if appointment_time in time_slots and isinstance(time_slots[appointment_time], list):
+                for i in range(len(time_slots[appointment_time])):
+                    if time_slots[appointment_time][i] == 1:
+                        time_slots[appointment_time][i] = 0  # Free the time slot
+                        break
+
+                # Update the doctor's schedule in MongoDB
+                doctor_availability_collection.update_one(
+                    {"doctor_name": {"$regex": doctor_name.strip(), "$options": "i"}},
+                    {"$set": {f"availability.{day_name}.{appointment_time}": time_slots[appointment_time]}}
+                )
+
+        return jsonify({"message": "Appointment canceled successfully."})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 @app.route('/check_availability_for_bookings', methods=['GET'])
 def check_availability_for_bookings():
