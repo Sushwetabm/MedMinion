@@ -29,6 +29,7 @@ def get_day_of_week(date):
 @app.route('/fetch_departments', methods=['GET'])
 def fetch_departments():
     departments = delhi_ncr_doctors_collection.distinct('Speciality/Domain')
+    print (departments)
     return jsonify(departments)
 
 @app.route('/fetch_locations', methods=['GET'])
@@ -104,7 +105,7 @@ def fetch_doctor_availability():
 @app.route('/book_appointment', methods=['POST'])
 def book_appointment():
     data = request.json
-    patient_id = data.get('patient_id')
+    patient_email= data.get('patient_email')
     doctor_name = data.get('doctor_name')
     appointment_date = data.get('appointment_date')
     appointment_time = data.get('appointment_time')
@@ -114,7 +115,7 @@ def book_appointment():
     try:
         # Insert the appointment details
         appointment = {
-            "patient_id": patient_id,
+            "patient_email": patient_email,
             "doctor_name": doctor_name,
             "appointment_date": appointment_date,
             "appointment_time": appointment_time,
@@ -152,10 +153,10 @@ def book_appointment():
 @app.route('/reschedule_appointment_flow', methods=['POST'])
 def reschedule_appointment_flow():
     data = request.json
-    patient_id = data['patient_id']
+    patient_email = data['patient_email']
 
     # Fetch all scheduled appointments
-    appointments = list(appointments_collection.find({"patient_id": patient_id, "status": "Scheduled"}))
+    appointments = list(appointments_collection.find({"patient_email": patient_email, "status": "Scheduled"}))
     
     if not appointments:
         return jsonify({"error": "No scheduled appointments found."}), 404
@@ -176,7 +177,7 @@ def reschedule_appointment_flow():
     new_appointment_time = data['new_appointment_time']
 
     confirmation = book_appointment({
-        'patient_id': patient_id,
+        'patient_email': patient_email,
         'doctor_name': doctor_name,
         'appointment_date': new_appointment_date,
         'appointment_time': new_appointment_time,
@@ -211,10 +212,10 @@ def reschedule_appointment_flow():
 @app.route('/cancel_appointment_flow', methods=['POST'])
 def cancel_appointment_flow():
     data = request.json
-    patient_id = data['patient_id']
+    patient_email = data['patient_email']
 
     # Fetch scheduled appointments
-    appointments = list(appointments_collection.find({"patient_id": patient_id, "status": "Scheduled"}))
+    appointments = list(appointments_collection.find({"patient_email": patient_email, "status": "Scheduled"}))
     
     if not appointments:
         return jsonify({"error": "No scheduled appointments found."}), 404
@@ -269,4 +270,4 @@ def check_availability_for_bookings():
     return jsonify({"available": False})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,port=5001)

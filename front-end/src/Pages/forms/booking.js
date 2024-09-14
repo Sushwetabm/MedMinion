@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
-import './BookingStyles.css';
+
 // Component for booking an appointment
 const BookAppointment = () => {
     const [departments, setDepartments] = useState([]);
@@ -13,14 +13,14 @@ const BookAppointment = () => {
     const [selectedDoctor, setSelectedDoctor] = useState(null);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedTime, setSelectedTime] = useState(null);
-    const [patientId, setPatientId] = useState('');
+    const [patientEmail, setPatientEmail] = useState('');
     const [contact, setContact] = useState('');
 
     // Fetch departments on component mount
     useEffect(() => {
         const fetchDepartments = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/fetch_departments');
+                const response = await axios.get('http://localhost:5001/fetch_departments');
                 setDepartments(response.data);
             } catch (error) {
                 console.error('Error fetching departments:', error);
@@ -34,7 +34,7 @@ const BookAppointment = () => {
         const fetchLocations = async () => {
             if (selectedDepartment) {
                 try {
-                    const response = await axios.get(`http://localhost:5000/fetch_locations?department=${selectedDepartment.value}`);
+                    const response = await axios.get(`http://localhost:5001/fetch_locations?department=${selectedDepartment.value}`);
                     setLocations(response.data);
                 } catch (error) {
                     console.error('Error fetching locations:', error);
@@ -44,14 +44,14 @@ const BookAppointment = () => {
         fetchLocations();
     }, [selectedDepartment]);
 
-    // Fetch doctors based on selected department and location
+    // Fetch doctors based on selected department
     useEffect(() => {
         const fetchDoctors = async () => {
             if (selectedDepartment) {
                 try {
-                    const response = await axios.get(`http://localhost:5000/fetch_doctors?department=${selectedDepartment.value}`);
+                    const response = await axios.get(`http://localhost:5001/fetch_doctors?department=${selectedDepartment.value}`);
                     setDoctors(response.data);
-                    console.log(response.data)
+                    console.log(response.data);
                 } catch (error) {
                     console.error('Error fetching doctors:', error);
                 }
@@ -65,7 +65,7 @@ const BookAppointment = () => {
         const fetchAvailability = async () => {
             if (selectedDoctor) {
                 try {
-                    const response = await axios.get(`http://localhost:5000/fetch_doctor_availability?doctor_name=${selectedDoctor.value}`);
+                    const response = await axios.get(`http://localhost:5001/fetch_doctor_availability?doctor_name=${selectedDoctor.value}`);
                     setAvailability(response.data);
                 } catch (error) {
                     console.error('Error fetching availability:', error);
@@ -78,8 +78,8 @@ const BookAppointment = () => {
     // Handle appointment booking
     const handleBookAppointment = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/book_appointment', {
-                patient_id: patientId,
+            const response = await axios.post('http://localhost:5001/book_appointment', {
+                patient_email: patientEmail,
                 doctor_name: selectedDoctor?.value,
                 appointment_date: selectedDate?.value,
                 appointment_time: selectedTime?.value,
@@ -98,9 +98,9 @@ const BookAppointment = () => {
     };
 
     return (
-        <div className="booking-container">
+        <div>
             <h1>Book an Appointment</h1>
-            <div className="select-container">
+            <div>
                 <label>Select Department:</label>
                 <Select
                     options={departments.map(dept => ({ value: dept, label: dept }))}
@@ -109,7 +109,7 @@ const BookAppointment = () => {
                 />
             </div>
             {selectedDepartment && (
-                <div className="select-container">
+                <div>
                     <label>Select Location:</label>
                     <Select
                         options={locations.map(loc => ({ value: loc, label: loc }))}
@@ -119,12 +119,12 @@ const BookAppointment = () => {
                 </div>
             )}
             {selectedDepartment && (
-                <div className="select-container">
+                <div>
                     <label>Select Doctor:</label>
                     <Select
-                         options={doctors.map(doc => ({
-                            value: doc[' Doctors Name'],
-                            label: doc[' Doctors Name'],
+                        options={doctors.map(doc => ({
+                            value: doc[' Doctors Name'],  // Corrected extra space
+                            label: doc[' Doctors Name'],  // Corrected extra space
                             contact: doc['Contact'],  // Pass contact as part of the option
                         }))}
                         onChange={handleDoctorChange}  // Handle doctor change
@@ -133,7 +133,7 @@ const BookAppointment = () => {
                 </div>
             )}
             {selectedDoctor && availability.length > 0 && (
-                <div className="select-container">
+                <div>
                     <label>Select Date:</label>
                     <Select
                         options={availability.map(avail => ({ value: avail.date, label: avail.date }))}
@@ -141,10 +141,10 @@ const BookAppointment = () => {
                         value={selectedDate}
                     />
                     {selectedDate && (
-                        <div className="select-container">
+                        <div>
                             <label>Select Time Slot:</label>
                             <Select
-                                options={availability.find(avail => avail.date === selectedDate.value)?.available_times.map(time => ({ value: time, label: time }))}
+                                options={availability.find(avail => avail.date === selectedDate.value)?.available_times?.map(time => ({ value: time, label: time })) || []}
                                 onChange={setSelectedTime}
                                 value={selectedTime}
                             />
@@ -153,8 +153,8 @@ const BookAppointment = () => {
                 </div>
             )}
             <div>
-                <label>Patient ID:</label>
-                <input type="text" value={patientId} onChange={e => setPatientId(e.target.value)} />
+                <label>Patient Email:</label>
+                <input type="email" value={patientEmail} onChange={e => setPatientEmail(e.target.value)} />
             </div>
             <div>
                 <label>Doctor Contact:</label>
