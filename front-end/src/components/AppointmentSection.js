@@ -97,9 +97,9 @@ function AppointmentSection() {
         ref={(el) => (boxesRef.current[1] = el)}
       >
         <h3>APPOINTMENT</h3>
-        <button className="search-btn">Book</button><br></br>
-        <button className="search-btn">Reschedule</button><br></br>
-        <button className="search-btn">Cancel</button><br></br>
+        <a href='/bookingpage'><button className="search-btn">Book</button></a><br></br>
+        <a href='/reschedulepage'><button className="search-btn">Reschedule</button></a><br></br>
+        <a href='/cancelpage'><button className="search-btn">Cancel</button></a><br></br>
       </div>
       <div
         className={`box box3 ${visibleBox >= 2 ? "show" : ""}`}
