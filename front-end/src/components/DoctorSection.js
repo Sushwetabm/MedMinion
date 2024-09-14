@@ -7,13 +7,15 @@ function DoctorSection() {
   const [symptoms, setSymptoms] = useState([]);
   const [currentSymptom, setCurrentSymptom] = useState("");
   const [disease, setDisease] = useState("");
-  const [detectedDisease, setDetectedDisease] = useState(""); // For displaying disease
-  const [detectedMedicines, setDetectedMedicines] = useState([]); // For displaying medicines
+  const [detectedDisease, setDetectedDisease] = useState("");
+  const [detectedMedicines, setDetectedMedicines] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [patientName, setPatientName] = useState("");
   const [patientID, setPatientID] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
+  const [doctorName, setDoctorName] = useState(""); // Doctor's name input
+  const [isDoctorConfirmed, setIsDoctorConfirmed] = useState(false); // Flag to confirm doctor
 
   // Function to add symptoms and call backend API to detect disease
   const addSymptom = async () => {
@@ -51,12 +53,51 @@ function DoctorSection() {
     }
   };
 
-  const handleDateChange = (date) => {
+  // Function to handle doctor name confirmation
+  const handleDoctorConfirmation = () => {
+    if (doctorName) {
+      setIsDoctorConfirmed(true);
+    }
+  };
+
+  const handleDateChange = async (date) => {
     setSelectedDate(date);
-    setAppointments([
-      { time: "9:00 AM", patient: "John Doe" },
-      { time: "11:00 AM", patient: "Jane Smith" },
-    ]);
+
+    if (!doctorName) {
+      alert("Please confirm your name first.");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/get_appointments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          doctorName: doctorName,
+          date: date.toISOString(), // Send the date in ISO format
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        if (!data.appointments || data.appointments.length === 0) {
+          setAppointments([]);
+          console.log("No appointments available");
+        } else {
+          setAppointments(
+            data.appointments.map((appointment) => ({
+              time: appointment.time,
+              bookedSlots: appointment.bookedSlots,
+            }))
+          );
+        }
+      } else {
+        console.error("Error fetching appointments", data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching appointments", error);
+    }
   };
 
   const handleFileUpload = (e) => {
@@ -121,18 +162,33 @@ function DoctorSection() {
       {/* Second Section: Calendar for Appointments */}
       <div className="section">
         <div className="doctor-box">
-          <h3>Select a Day for Appointments</h3>
-          <Calendar onChange={handleDateChange} value={selectedDate} />
-          <div className="output-box">
-            <h4>Appointments on {selectedDate.toDateString()}</h4>
-            <ul>
-              {appointments.map((appointment, index) => (
-                <li key={index}>
-                  {appointment.time} - {appointment.patient}
-                </li>
-              ))}
-            </ul>
-          </div>
+          {!isDoctorConfirmed ? (
+            <>
+              <h3>Confirm Doctor's Name</h3>
+              <input
+                type="text"
+                value={doctorName}
+                onChange={(e) => setDoctorName(e.target.value)}
+                placeholder="Enter your name"
+              />
+              <button onClick={handleDoctorConfirmation}>Confirm</button>
+            </>
+          ) : (
+            <>
+              <h3>Select a Day for Appointments</h3>
+              <Calendar onChange={handleDateChange} value={selectedDate} />
+              <div className="output-box">
+                <h4>Appointments on {selectedDate.toDateString()}</h4>
+                <ul>
+                  {appointments.map((appointment, index) => (
+                    <li key={index}>
+                      {appointment.time} - {appointment.patient}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
