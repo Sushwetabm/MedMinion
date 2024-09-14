@@ -1,4 +1,11 @@
+body{
+    background-color: powderblue;
+}
+
 .reschedule-container {
+    margin-top:2rem;
+    margin-bottom:2rem;
+    margin-left: 20rem;
     width: 100%;
     max-width: 600px;
     margin: 0 auto;

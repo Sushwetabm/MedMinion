@@ -1,4 +1,11 @@
+body{
+    background-color: powderblue;
+}
+
 .cancel-container {
+    margin-top:2rem;
+    margin-bottom:2rem;
+    margin-left: 20rem;
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
