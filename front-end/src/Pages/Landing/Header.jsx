@@ -44,8 +44,8 @@ const Header = () => {
                     fontWeight: 700,
                     color: '#fff',
                     textAlign: 'center',
-                    fontFamily: 'revert',
-                    marginRight:4,
+                    fontFamily:'monospace',
+                    marginRight:3.5,
                     animation: `slideIn 2s ease-out`,
                         '@keyframes slideIn': {
                             '0%': { transform: 'translateX(-100%)', opacity: 0 },
@@ -65,9 +65,9 @@ const Header = () => {
                     fontWeight: 500,
                     color: '#fff',
                     textAlign: 'center',
-                    fontFamily: 'revert',
+                    fontFamily:'cursive',
                     marginRight:4,
-                    fontSize:18,
+                    fontSize:20,
                     animation: `fadeIn 3s ease-in`,
                         '@keyframes fadeIn': {
                             '0%': { opacity: 0 },
@@ -75,7 +75,7 @@ const Header = () => {
                         }
                 }}
                 >
-                    Here, we automate your clinic’s manual tasks for seamless healthcare management!
+                    Here, we automate your clinic’s <br></br>manual tasks for seamless <br></br>healthcare management!
                 </Typography>
 
 
