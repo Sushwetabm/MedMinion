@@ -2,8 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 import './BookingStyles.css';
+import {  useNavigate } from "react-router-dom";
+
+
+
 // Component for booking an appointment
 const BookAppointment = () => {
+ 
+    const navigate = useNavigate();
+
     const [departments, setDepartments] = useState([]);
     const [locations, setLocations] = useState([]);
     const [doctors, setDoctors] = useState([]);
@@ -87,6 +94,7 @@ const BookAppointment = () => {
                 doctor_contact: contact,
             });
             alert(response.data.message);
+            navigate("/mainpage");
         } catch (error) {
             console.error('Error booking appointment:', error);
         }
