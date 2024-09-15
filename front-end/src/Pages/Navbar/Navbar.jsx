@@ -14,7 +14,7 @@ import {
 import DrawerItem from './DrawerItem';
 // rotas
 import { Link, useLocation } from 'react-router-dom';
-
+import logo from '../../img/logo.png';
 // personalizacao
 const StyledToolbar = styled(Toolbar)({
     display: 'flex',
@@ -63,6 +63,19 @@ const Navbar = () => {
             elevation={0}
         >
             <StyledToolbar>
+                {/* Logo Container */}
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <img 
+                        src={logo} 
+                        alt="MedMinion Logo" 
+                        style={{
+                            borderRadius:'100%',
+                            width: '3.5rem',  
+                            height: '3.5rem', 
+                            marginRight: '10px', 
+                            border: '2px solid #ddd',
+                        }}
+                    />
                 <Typography
                     variant="h5"
                     component="h2"
@@ -70,6 +83,7 @@ const Navbar = () => {
                 >
                     MedMinion
                 </Typography>
+                </Box>
                 <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
                     <DrawerItem />
                 </Box>

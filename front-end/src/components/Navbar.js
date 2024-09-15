@@ -38,7 +38,7 @@ function Navbar() {
     <>
       {/* Logo in top-left corner */}
       <div className="logo-container">
-        <img src={logo} alt="DentCare" className="logo-circle" />
+        <img src={logo} alt="MedMinion Logo" className="logo-circle" />
       </div>
 
       <nav className="navbar">
