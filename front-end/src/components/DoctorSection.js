@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./DoctorSection.css";
@@ -6,8 +6,10 @@ import "./DoctorSection.css";
 function DoctorSection() {
   const [symptoms, setSymptoms] = useState([]);
   const [currentSymptom, setCurrentSymptom] = useState("");
-  const [disease, setDisease] = useState("");
-  const [detectedDisease, setDetectedDisease] = useState("");
+  const [currentDisease, setCurrentDisease] = useState("");
+  const [disease, setDisease] = useState([]);
+  const [diseasebyuser, setDiseaseByUser] = useState([]);
+  const [detectedDisease, setDetectedDisease] = useState([]);
   const [detectedMedicines, setDetectedMedicines] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -21,36 +23,41 @@ function DoctorSection() {
   const addSymptom = async () => {
     if (currentSymptom) {
       const updatedSymptoms = [...symptoms, currentSymptom];
-      setSymptoms(updatedSymptoms);
+      // setSymptoms(updatedSymptoms);
       setCurrentSymptom("");
 
       // Use the correct API route for disease detection
-      const response = await fetch("http://localhost:5000/get_medicine", {
+      const response = await fetch("http://localhost:5002/get_disease", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ input: updatedSymptoms.join(", ") }), // Send symptoms as input
       });
 
       const data = await response.json();
-      setDetectedDisease(data.disease); // Detect disease
+      // console.log(data);
+      console.log("API Response: ", data);  // Check the API response here
+      setDetectedDisease(data.diseases); // Detect disease
+      setSymptoms(data.symptoms)
     }
   };
 
   const handleDiseaseInput = async (e) => {
-    const diseaseInput = e.target.value;
-    setDisease(diseaseInput);
+    if (currentDisease) {
+      const updatedDisease = [...diseasebyuser, currentDisease];
+      setCurrentDisease("");
 
-    if (diseaseInput) {
       // Use the same route to fetch medicines for disease input
-      const response = await fetch("http://localhost:5000/get_medicine", {
+      const response = await fetch("http://localhost:5002/get_medicine", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input: diseaseInput }), // Send disease as input
+        body: JSON.stringify({ input: updatedDisease.join(", ")}), // Send disease as input
       });
 
       const data = await response.json();
-      setDetectedMedicines(data.medicines || []);
-    }
+      setDetectedMedicines(data.medicines);
+      setDiseaseByUser(data.disease);
+    
+  }
   };
 
   // Function to handle doctor name confirmation
@@ -124,12 +131,17 @@ function DoctorSection() {
                 <li key={index}>{symptom}</li>
               ))}
             </ul>
-            {detectedDisease && (
+            {detectedDisease && detectedDisease.length > 0 && (
               <div>
-                <h4>Detected Disease</h4>
-                <p>{detectedDisease}</p>
+                <h4>Detected Diseases</h4>
+                <ul>
+                  {detectedDisease.map((disease, index) => (
+                    <li key={index}>{disease}</li>
+                  ))}
+                </ul>
               </div>
             )}
+
           </div>
         </div>
 
@@ -137,13 +149,18 @@ function DoctorSection() {
           <h3>Input Disease</h3>
           <input
             type="text"
-            value={disease}
-            onChange={handleDiseaseInput}
+            value={currentDisease}
+            onChange={(e) => setCurrentDisease(e.target.value)}
             placeholder="Enter disease"
           />
+           <button onClick={handleDiseaseInput}>Add Symptom</button>
           <div className="output-box">
             <h4>Disease Input</h4>
-            <p>{disease}</p>
+            <ul>
+              {diseasebyuser.map((dis, index) => (
+                <li key={index}>{dis}</li>
+              ))}
+            </ul>
             {Array.isArray(detectedMedicines) &&
               detectedMedicines.length > 0 && (
                 <div>

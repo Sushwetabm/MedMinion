@@ -30,7 +30,6 @@ def get_day_of_week(date):
 @app.route('/fetch_departments', methods=['GET'])
 def fetch_departments():
     departments = delhi_ncr_doctors_collection.distinct('Speciality/Domain')
-    print (departments)
     return jsonify(departments)
 
 @app.route('/fetch_locations', methods=['GET'])
