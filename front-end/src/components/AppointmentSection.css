@@ -91,3 +91,35 @@ button.search-btn:hover,
 button.appointment-btn:hover {
   background-color: #f0f0f0;
 }
+/* Styling for patient info items */
+.patient-info {
+  margin-top: 20px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between; /* Align label and value in one line */
+  background-color: #f9f9f9; /* Light background for info boxes */
+  padding: 10px;
+  border-radius: 8px; /* Rounded corners */
+  margin-bottom: 10px; /* Spacing between items */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for box effect */
+}
+
+.label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.value {
+  color: #333;
+}
+
+ul {
+  list-style-type: none; /* Remove bullet points from the list */
+  padding: 0; /* Remove default padding */
+}
+
+li {
+  margin-bottom: 10px; /* Add some space between list items */
+}
