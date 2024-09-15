@@ -82,7 +82,7 @@ async function getPatientInfo(req, res) {
   const patient=getPatient(token);
   const mail=patient.email;
   const event= await PATIENT.find({email:mail})
-  // console.log(event);
+
   return res.json({msg: event})
 }
 
@@ -100,17 +100,13 @@ async function HandlePatientReports(req, res, next) {
     }
 
     const imagePath = '/uploads/' + req.file.filename;
-    console.log(imagePath);
-
-
-    // Find the patient by email and name
+  
     const patient = await PATIENT.findOne({ email: patientEmail, name: patientName });
 
     if (!patient) {
       return next(new errorHandler("Patient not found!", 404));
     }
 
-    // Update the patient record with the uploaded PDF path
     patient.pdf = imagePath;
     await patient.save();
 

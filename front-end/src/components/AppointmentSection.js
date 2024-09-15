@@ -164,6 +164,14 @@ function AppointmentSection() {
       >
         <h3>YOUR TEST RESULTS</h3>
         <button className="appointment-btn">Download test results</button>
+        {patientInfo &&
+          patientInfo.map((patient, index) => (
+            <div className="patient-info" key={index} >
+             <a href={`http://localhost:5000${patient.pdf}`} className="reports" target="_blank" rel="noopener noreferrer">
+            Click on this link to download Your Test Reports
+            </a>
+            </div>
+          ))}
       </div>
     </div>
   );
