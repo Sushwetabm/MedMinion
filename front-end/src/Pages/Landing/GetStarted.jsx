@@ -52,6 +52,7 @@ const GetStarted = () => {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    backgroundColor:'beige',
   });
 
   const CustomTypography = styled(Typography)(({ visible }) => ({
