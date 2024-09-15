@@ -99,37 +99,44 @@ def fetch_doctor_availability():
 
     return jsonify(availability)
 
-@app.route('/fetch_appointments', methods=['POST'])
+@app.route('/fetch_appointments', methods=['GET'])
 def fetch_appointments():
-    try:
-        data = request.json
-        print(f"Received data: {data}") 
+    patient_email = request.args.get('patient_email')
+    appointments = appointments_collection.distinct('status', {"patient_email": patient_email})
+    return jsonify(appointments)
 
-        patient_email = data.get('patient_email')
-        if not patient_email:
-            return jsonify({"error": "patient_email not provided."}), 400
+
+#@app.route('/fetch_appointments', methods=['POST'])
+#def fetch_appointments():
+ #   try:
+  #      data = request.json
+   #     print(f"Received data: {data}") 
+
+    #    patient_email = data.get('patient_email')
+     #   if not patient_email:
+      #      return jsonify({"error": "patient_email not provided."}), 400
 
         # Fetch all scheduled appointments for the patient
-        appointments = list(appointments_collection.find({"patient_email": patient_email, "status": "Scheduled"}))
+       # appointments = list(appointments_collection.find({"patient_email": patient_email, "status": "Scheduled"}))
 
-        if not appointments:
-            return jsonify({"error": "No scheduled appointments found."}), 404
+        #if not appointments:
+         #   return jsonify({"error": "No scheduled appointments found."}), 404
 
-        formatted_appointments = [
-            {
-                "_id": str(app["_id"]),
-                "doctor_name": app["doctor_name"],
-                "appointment_date": app["appointment_date"],
-                "appointment_time": app["appointment_time"],
-                "clinic_location": app["clinic_location"]
-            }
-            for app in appointments
-        ]
+      #  formatted_appointments = [
+       #     {
+        #        "_id": str(app["_id"]),
+         #       "doctor_name": app["doctor_name"],
+          #      "appointment_date": app["appointment_date"],
+           #     "appointment_time": app["appointment_time"],
+            #    "clinic_location": app["clinic_location"]
+           # }
+            #for app in appointments
+        #]
 
-        return jsonify({"appointments": formatted_appointments})
-    except Exception as e:
-        print(f"Error: {e}")  # Log the error
-        return jsonify({"error": str(e)}), 500
+        #return jsonify({"appointments": formatted_appointments})
+    #except Exception as e:
+     #   print(f"Error: {e}")  # Log the error
+      #  return jsonify({"error": str(e)}), 500
 
 
 @app.route('/book_appointment', methods=['POST'])
