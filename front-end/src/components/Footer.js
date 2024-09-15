@@ -8,6 +8,7 @@ function Footer() {
         {/* Contact Us Section */}
         <div className="footer-section contact-us">
           <h3>Contact Us</h3>
+          <h3>Team: Pookiesss </h3>
           <p>Rishav Sachdeva (sachdevarishav449@gmail.com)</p>
           <p>Sushweta Bhattacharya (sushwetabm@gmail.com)</p>
           <p>Hansawani Saini (hansawani07@gmail.com) </p>
