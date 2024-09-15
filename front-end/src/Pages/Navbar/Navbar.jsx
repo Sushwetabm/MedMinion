@@ -95,7 +95,6 @@ const Navbar = () => {
                                 <ListItemButton component={Link} to={item.to}
                                     sx={{
                                         color: 'black',
-                                        
                                         "&:hover": {
                                             backgroundColor: 'transparent',
                                             color: 'orange',
