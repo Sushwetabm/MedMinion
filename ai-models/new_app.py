@@ -115,7 +115,6 @@ def match_symptoms(parsed_symptoms, diseases_data):
 @app.route('/get_disease', methods=['POST'])
 def get_disease():
     user_input = request.json.get('input')
-    print(user_input)
 
     if not user_input:
         return jsonify({"error": "No input provided"}), 400
@@ -132,7 +131,6 @@ def get_disease():
     if top_diseases:
         # Extract the top 3 disease names and their scores
         disease_names = [disease[0] for disease in top_diseases]
-        print(disease_names)
         return jsonify({"diseases": disease_names,"symptoms":parsed_symptoms})
     
     return jsonify({"error": "No matching diseases found."}), 404
@@ -141,14 +139,12 @@ def get_disease():
 @app.route('/get_medicine', methods=['POST'])
 def get_medicine():
     user_input = request.json.get('input')
-    print(user_input)
     
     if not user_input:
         return jsonify({"error": "No disease provided"}), 400
 
     # Parse disease from the user input
     parsed_entities = parse_medical_entities(user_input)
-    print(parsed_entities)
 
     # Fetch medicine data
     medicine_data = fetch_medicine_data()
@@ -156,7 +152,6 @@ def get_medicine():
 
     # Check for medicines matching the disease
     medicines = check_medicine_disease(parsed_entities, medicine_data)
-    print(medicines)
 
     if medicines:
         return jsonify({"medicines": medicines,"disease":parsed_entities})
