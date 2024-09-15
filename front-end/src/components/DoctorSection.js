@@ -284,7 +284,7 @@ const handleSubmit = async (e) => {
       </div>
 
       {/* ############ Third Section: Patient Info and File Upload ################# */}
-      <div className="section">
+      <div className="section section3">
       <form onSubmit={handleSubmit}>
         <div className="doctor-box">
           <h3>Patient Information</h3>
@@ -313,10 +313,11 @@ const handleSubmit = async (e) => {
             <button type="submit">Submit</button>
 
             {pdfFile && <p>Uploaded File: {pdfFile.name}</p>}
+            {message && <p className="pdfmsg">{message}</p>}
           </div>
         </div>
         </form>
-        {message && <p>{message}</p>}
+       
 
       </div>
     </div>
