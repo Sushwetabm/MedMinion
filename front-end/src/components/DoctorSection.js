@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./DoctorSection.css";
@@ -16,27 +16,27 @@ function DoctorSection() {
   const [patientName, setPatientName] = useState("");
   const [patientID, setPatientID] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
-  const [doctorName, setDoctorName] = useState(""); // Doctor's name input
-  const [isDoctorConfirmed, setIsDoctorConfirmed] = useState(false); // Flag to confirm doctor
+  const [doctorName, setDoctorName] = useState("");
+  const [isDoctorConfirmed, setIsDoctorConfirmed] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // Error message for invalid doctor
 
-  // Function to add symptoms and call backend API to detect disease
+
   const addSymptom = async () => {
     if (currentSymptom) {
       const updatedSymptoms = [...symptoms, currentSymptom];
       // setSymptoms(updatedSymptoms);
       setCurrentSymptom("");
 
-      // Use the correct API route for disease detection
       const response = await fetch("http://localhost:5002/get_disease", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input: updatedSymptoms.join(", ") }), // Send symptoms as input
+        body: JSON.stringify({ input: updatedSymptoms.join(", ") }),
       });
 
       const data = await response.json();
       // console.log(data);
-      console.log("API Response: ", data);  // Check the API response here
-      setDetectedDisease(data.diseases); // Detect disease
+      console.log("API Response: ", data);
+      setDetectedDisease(data.diseases);
       setSymptoms(data.symptoms)
     }
   };
@@ -46,24 +46,42 @@ function DoctorSection() {
       const updatedDisease = [...diseasebyuser, currentDisease];
       setCurrentDisease("");
 
-      // Use the same route to fetch medicines for disease input
       const response = await fetch("http://localhost:5002/get_medicine", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input: updatedDisease.join(", ")}), // Send disease as input
+        body: JSON.stringify({ input: updatedDisease.join(", ") }),
       });
 
       const data = await response.json();
       setDetectedMedicines(data.medicines);
       setDiseaseByUser(data.disease);
-    
-  }
+
+    }
   };
 
   // Function to handle doctor name confirmation
-  const handleDoctorConfirmation = () => {
+  const handleDoctorConfirmation = async () => {
     if (doctorName) {
-      setIsDoctorConfirmed(true);
+
+      try {
+        const response = await fetch("http://localhost:5000/doctor/check_doctor", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ doctorName: doctorName }), // Ensure doctorName is sent properly
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.exists) {
+          setIsDoctorConfirmed(true);
+          setErrorMessage(""); // Clear error message if doctor is found
+        } else {
+          setErrorMessage("Doctor not found. Please input a valid name.");
+        }
+      } catch (error) {
+        console.error("Error checking doctor name", error);
+        setErrorMessage("An error occurred while checking the doctor.");
+      }
     }
   };
 
@@ -75,13 +93,15 @@ function DoctorSection() {
       return;
     }
 
+    const dayOfWeek = date.toLocaleDateString("en-US", { weekday: "long" });
+
     try {
-      const response = await fetch("http://localhost:5000/get_appointments", {
+      const response = await fetch("http://localhost:5000/doctor/get_appointments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           doctorName: doctorName,
-          date: date.toISOString(), // Send the date in ISO format
+          dayOfWeek: dayOfWeek, // Send the day of the week instead of the full date
         }),
       });
 
@@ -153,7 +173,7 @@ function DoctorSection() {
             onChange={(e) => setCurrentDisease(e.target.value)}
             placeholder="Enter disease"
           />
-           <button onClick={handleDiseaseInput}>Add Symptom</button>
+          <button onClick={handleDiseaseInput}>Add Symptom</button>
           <div className="output-box">
             <h4>Disease Input</h4>
             <ul>
@@ -176,7 +196,7 @@ function DoctorSection() {
         </div>
       </div>
 
-      {/* Second Section: Calendar for Appointments */}
+      {/*  ########## Second Section: Calendar for Appointments ##############*/}
       <div className="section">
         <div className="doctor-box">
           {!isDoctorConfirmed ? (
@@ -189,6 +209,7 @@ function DoctorSection() {
                 placeholder="Enter your name"
               />
               <button onClick={handleDoctorConfirmation}>Confirm</button>
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
             </>
           ) : (
             <>
@@ -199,7 +220,8 @@ function DoctorSection() {
                 <ul>
                   {appointments.map((appointment, index) => (
                     <li key={index}>
-                      {appointment.time} - {appointment.patient}
+                      {appointment.time} - {appointment.bookedSlots} slots
+                      booked
                     </li>
                   ))}
                 </ul>
@@ -209,7 +231,7 @@ function DoctorSection() {
         </div>
       </div>
 
-      {/* Third Section: Patient Info and File Upload */}
+      {/* ############ Third Section: Patient Info and File Upload ################# */}
       <div className="section">
         <div className="doctor-box">
           <h3>Patient Information</h3>

@@ -13,7 +13,8 @@ function setPatient(patient,role) {
 }
 
 function getPatient(token) {
-  if (!token) return null;
+  if (!token){ 
+    return null;}
   try {
     return jwt.verify(token, sect);
   } catch (err) {
