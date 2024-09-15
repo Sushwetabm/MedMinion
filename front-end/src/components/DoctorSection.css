@@ -56,6 +56,8 @@
   display: flex;
   gap: 20px;
   margin-bottom: 30px;
+  align-items: center;
+  justify-content: center;
 }
 
 .doctor-section .doctor-box {
@@ -73,6 +75,11 @@
   border-radius: 5px;
   background-color: yellowgreen;
   /* color: red; */
+}
+
+.pdfmsg{
+  color:black !important;
+  font-size:27px;
 }
 
 .doctor-section input {
