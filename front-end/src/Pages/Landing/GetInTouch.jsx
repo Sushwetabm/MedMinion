@@ -39,7 +39,12 @@ const GetInTouch = () => {
             mx={0}
             textAlign={'center'}    
             />
- 
+            <Paragraph
+            text={'© MedMinion. All Rights Reserved.'}
+            maxWidth = {'sm'}
+            mx={0}
+            textAlign={'center'} 
+            />
         </Stack>
     )
 }

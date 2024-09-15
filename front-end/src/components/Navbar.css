@@ -17,6 +17,7 @@
   top: 10px;
   left: 10px;
   z-index: 1000;
+  
 }
 
 .logo-circle {
@@ -25,11 +26,12 @@
   border-radius: 100%;
   object-fit: cover;
   border: 2px solid #ddd;
-  margin-right: '10px', 
+  margin-right:1rem
 }
 
 /* Navigation Links */
 .nav-links {
+  margin-left: 3rem;
   display: flex;
   list-style: none;
 }
