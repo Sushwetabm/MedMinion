@@ -7,6 +7,7 @@ function AppointmentSection() {
   const [patientInfo, setPatientInfo] = useState(null); // State to hold patient information
   const boxesRef = useRef([]);
   const [appointments, setAppointments] = useState(null); // State to hold fetched appointments
+  const [appointmentsFetched, setAppointmentsFetched] = useState(false); // Track if appointments have been fetched
 
   // useEffect(() => {
   //   const fetchPatientInfo = async () => {
@@ -35,6 +36,8 @@ function AppointmentSection() {
         setAppointments(response.data.appointments);
       } catch (error) {
         console.error("Error fetching appointments:", error);
+      } finally {
+        setAppointmentsFetched(true); // Mark that the appointments have been fetched
       }
     }
   };
@@ -118,27 +121,34 @@ function AppointmentSection() {
           Your Appointments
         </button>
 
-        {appointments && appointments.length > 0 && (
-          <div className="appointments-list">
-            <h4>Your Appointments</h4>
-            {appointments.map((appointment, index) => (
-              <div className="appointment-info" key={index}>
-                <div className="info-item">
-                  <span className="label">Doctor:</span>
-                  <span className="value">{appointment.doctor_name}</span>
+        {appointmentsFetched &&
+          (appointments && appointments.length > 0 ? (
+            <div className="appointments-list">
+              <h4>Your Appointments</h4>
+              {appointments.map((appointment, index) => (
+                <div className="appointment-info" key={index}>
+                  <div className="info-item">
+                    <span className="label">Doctor:</span>
+                    <span className="value">{appointment.doctor_name}</span>
+                  </div>
+                  <div className="info-item">
+                    <span className="label">Date:</span>
+                    <span className="value">
+                      {appointment.appointment_date}
+                    </span>
+                  </div>
+                  <div className="info-item">
+                    <span className="label">Time:</span>
+                    <span className="value">
+                      {appointment.appointment_time}
+                    </span>
+                  </div>
                 </div>
-                <div className="info-item">
-                  <span className="label">Date:</span>
-                  <span className="value">{appointment.appointment_date}</span>
-                </div>
-                <div className="info-item">
-                  <span className="label">Time:</span>
-                  <span className="value">{appointment.appointment_time}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          ) : (
+            <p>No appointments scheduled</p>
+          ))}
       </div>
       <div
         className={`box box2 ${visibleBox >= 1 ? "show" : ""}`}
@@ -166,10 +176,15 @@ function AppointmentSection() {
         <button className="appointment-btn">Download test results</button>
         {patientInfo &&
           patientInfo.map((patient, index) => (
-            <div className="patient-info" key={index} >
-             <a href={`http://localhost:5000${patient.pdf}`} className="reports" target="_blank" rel="noopener noreferrer">
-            Click on this link to download Your Test Reports
-            </a>
+            <div className="patient-info" key={index}>
+              <a
+                href={`http://localhost:5000${patient.pdf}`}
+                className="reports"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Click on this link to download Your Test Reports
+              </a>
             </div>
           ))}
       </div>
