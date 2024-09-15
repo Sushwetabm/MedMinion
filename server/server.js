@@ -37,6 +37,8 @@ connectDB().then(() => {
   app.use("/doctor", AppointmentRouter);
   app.use("/patient_booking", PatientBookingRouter);
   app.use("/checkuser", CheckRouter);
+  app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
   app.use(checkAuthentication);
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./DoctorSection.css";
+import axios, { AxiosHeaders } from 'axios';
 
 function DoctorSection() {
   const [symptoms, setSymptoms] = useState([]);
@@ -13,12 +14,67 @@ function DoctorSection() {
   const [detectedMedicines, setDetectedMedicines] = useState([]);
   const [appointments, setAppointments] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [patientName, setPatientName] = useState("");
-  const [patientID, setPatientID] = useState("");
+  // const [patientName, setPatientName] = useState("");
+  // const [patientEmail, setPatientEmail] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
   const [doctorName, setDoctorName] = useState("");
   const [isDoctorConfirmed, setIsDoctorConfirmed] = useState(false);
   const [errorMessage, setErrorMessage] = useState(""); // Error message for invalid doctor
+  const [message, setMessage] = useState('');
+
+
+  const [fileData, setFileData] = useState({
+    reports: null,
+    patientName:null,
+    patientEmail:null
+});
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    
+      let reports = fileData.reports;
+      let patientName=fileData.patientName;
+      let patientEmail=fileData.patientEmail;
+
+      const response = await axios.post(
+          "http://localhost:5000/patient/patient_reports",
+          {
+              reports,patientEmail,patientName
+          },
+          {
+              headers: {
+                  "Content-Type": "multipart/form-data",
+                  "Access-Control-Allow-Credentials": true,
+              },
+              withCredentials: true,
+          }
+      )
+      setMessage(response.data.message);
+      setFileData({
+          reports: null,
+          patientEmail:"",
+          patientName:"",
+      });
+  } catch (error) {
+      if (
+          error.response &&
+          error.response.status >= 400 &&
+          error.response.status <= 500
+      ) {
+          setMessage(error.response.data.message);
+      }
+  }
+};
+
+  const handleChange = ({ currentTarget: input }) => {
+    if (input.type === "file") {
+      setFileData({ ...fileData, [input.name]: input.files[0] });
+  } else {
+      setFileData({ ...fileData, [input.name]: input.value });
+  }
+};
+
 
 
   const addSymptom = async () => {
@@ -127,10 +183,6 @@ function DoctorSection() {
     }
   };
 
-  const handleFileUpload = (e) => {
-    setPdfFile(e.target.files[0]);
-  };
-
   return (
     <div className="doctor-section">
       {/* First Section: Symptom and Disease Input */}
@@ -233,30 +285,39 @@ function DoctorSection() {
 
       {/* ############ Third Section: Patient Info and File Upload ################# */}
       <div className="section">
+      <form onSubmit={handleSubmit}>
         <div className="doctor-box">
           <h3>Patient Information</h3>
           <input
             type="text"
-            value={patientName}
-            onChange={(e) => setPatientName(e.target.value)}
+            name="patientName"
+            value={fileData.patientName}
+            onChange={handleChange}
             placeholder="Enter Patient Name"
           />
           <input
-            type="text"
-            value={patientID}
-            onChange={(e) => setPatientID(e.target.value)}
-            placeholder="Enter Patient ID"
+            type="email"
+            value={fileData.patientEmail}
+            name="patientEmail"
+            onChange={handleChange}
+            placeholder="Enter Patient Email"
           />
           <div>
-            <h4>Upload Patient PDF</h4>
+            <h4>Upload Patient Reports</h4>
             <input
               type="file"
               accept="application/pdf"
-              onChange={handleFileUpload}
+              name="reports"
+              onChange={handleChange}
             />
+            <button type="submit">Submit</button>
+
             {pdfFile && <p>Uploaded File: {pdfFile.name}</p>}
           </div>
         </div>
+        </form>
+        {message && <p>{message}</p>}
+
       </div>
     </div>
   );

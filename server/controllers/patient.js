@@ -1,7 +1,21 @@
 const { errorHandler } = require("../error");
 const bcrypt = require("bcryptjs");
 const PATIENT = require("../models/patient");
+const multer=require("multer");
 const { setPatient, getPatient } = require("../services/auth");
+
+
+const Storage= multer.diskStorage({
+  destination:"./uploads",
+  filename:(req,file,cb)=>{
+    cb(null,Date.now()+file.originalname);
+  },
+});
+
+const upload=multer({
+  storage:Storage
+}).single("reports")
+
 
 
 async function HandlePatientSignUp(req, res, next) {
@@ -69,14 +83,56 @@ async function getPatientInfo(req, res) {
   const mail=patient.email;
   const event= await PATIENT.find({email:mail})
   // console.log(event);
-  
-
   return res.json({msg: event})
+}
+
+async function HandlePatientReports(req, res, next) {
+  const { patientName, patientEmail } = req.body;
+
+  if (!patientEmail || !patientName) {
+    return next(new errorHandler("Please fill all the required details!", 400));
+  }
+
+  try {
+    // Ensure that the file is uploaded and exists
+    if (!req.file || !req.file.filename) {
+      return next(new errorHandler("PDF file is required!", 400));
+    }
+
+    const imagePath = '/uploads/' + req.file.filename;
+    console.log(imagePath);
+
+
+    // Find the patient by email and name
+    const patient = await PATIENT.findOne({ email: patientEmail, name: patientName });
+
+    if (!patient) {
+      return next(new errorHandler("Patient not found!", 404));
+    }
+
+    // Update the patient record with the uploaded PDF path
+    patient.pdf = imagePath;
+    await patient.save();
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Details and PDF stored successfully" });
+  } catch (error) {
+    if (error.name === "ValidationError") {
+      const validationErrors = Object.values(error.errors).map(
+        (err) => err.message
+      );
+      return next(new errorHandler(validationErrors.join(" , "), 400));
+    }
+    return next(error);
+  }
 }
 
 
 module.exports = {
   HandlePatientSignUp,
   HandlePatientLogin,
-  getPatientInfo
+  getPatientInfo,
+  upload,
+  HandlePatientReports,
 };
