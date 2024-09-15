@@ -45,7 +45,12 @@ const Header = () => {
                     color: '#fff',
                     textAlign: 'center',
                     fontFamily: 'revert',
-                    marginRight:4
+                    marginRight:4,
+                    animation: `slideIn 2s ease-out`,
+                        '@keyframes slideIn': {
+                            '0%': { transform: 'translateX(-100%)', opacity: 0 },
+                            '100%': { transform: 'translateX(0)', opacity: 1 },
+                        }
                 }}
                 >
                 Welcome to MedMinion
@@ -62,7 +67,12 @@ const Header = () => {
                     textAlign: 'center',
                     fontFamily: 'revert',
                     marginRight:4,
-                    fontSize:18
+                    fontSize:18,
+                    animation: `fadeIn 3s ease-in`,
+                        '@keyframes fadeIn': {
+                            '0%': { opacity: 0 },
+                            '100%': { opacity: 1 },
+                        }
                 }}
                 >
                     Here, we automate your clinic’s manual tasks for seamless healthcare management!
