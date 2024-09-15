@@ -8,14 +8,14 @@ const Signup = () => {
     name: "",
     email: "",
     phone: "",
-    gender:"",
-    address:"",
+    gender: "",
+    address: "",
     hospitalName: "",
-    yourDomain:"",
-    qualification:"",
+    yourDomain: "",
+    qualification: "",
     password: "",
   });
-  const [error,setError]=useState("")
+  const [error, setError] = useState("")
   const navigate = useNavigate();
 
   const handleChange = ({ currentTarget: input }) => {
@@ -31,12 +31,12 @@ const Signup = () => {
       let gender = data.gender;
       let address = data.address;
       let hospitalName = data.hospitalName;
-      let yourDomain=data.yourDomain;
+      let yourDomain = data.yourDomain;
       let qualification = data.qualification;
       let password = data.password;
-      const  result = await axios.post(
+      const result = await axios.post(
         "http://localhost:5000/doctor/signup",
-        { name, email, phone,gender,address, hospitalName,yourDomain,qualification, password },
+        { name, email, phone, gender, address, hospitalName, yourDomain, qualification, password },
         {
           headers: {
             "Content-Type": "application/json",
@@ -44,28 +44,28 @@ const Signup = () => {
           },
           withCredentials: true,
         }
-	)
-	  console.log(result)
+      )
+      console.log(result)
       setData({
         name: "",
         email: "",
         phone: "",
-        gender:"",
-        address:"",
+        gender: "",
+        address: "",
         hospitalName: "",
-        yourDomain:"",
-        qualification:"",
+        yourDomain: "",
+        qualification: "",
         password: "",
       });
       navigate("/doctorlogin");
     } catch (error) {
-		if (
-			error.response &&
-			error.response.status >= 400 &&
-			error.response.status <= 500
-		) {
-			setError(error.response.data.message);
-		}
+      if (
+        error.response &&
+        error.response.status >= 400 &&
+        error.response.status <= 500
+      ) {
+        setError(error.response.data.message);
+      }
     }
   };
 
@@ -108,11 +108,11 @@ const Signup = () => {
               onChange={handleChange}
               value={data.phone}
               required
-			  minLength={10}
-			  maxLength={10}
+              minLength={10}
+              maxLength={10}
               className={styles.input}
             />
-                 <input
+            <input
               type="text"
               placeholder="Gender"
               name="gender"
@@ -121,7 +121,7 @@ const Signup = () => {
               required
               className={styles.input}
             />
-                 <input
+            <input
               type="text"
               placeholder="Clinic Address"
               name="address"
@@ -139,7 +139,7 @@ const Signup = () => {
               required
               className={styles.input}
             />
-               <input
+            <input
               type="text"
               placeholder="Your Domain"
               name="yourDomain"
@@ -148,7 +148,7 @@ const Signup = () => {
               required
               className={styles.input}
             />
-                 <input
+            <input
               type="text"
               placeholder="Qualification"
               name="qualification"
@@ -166,7 +166,7 @@ const Signup = () => {
               required
               className={styles.input}
             />
-             {error && <div className={styles.error_msg}>{error}</div>}
+            {error && <div className={styles.error_msg}>{error}</div>}
             <button type="submit" className={styles.green_btn}>
               Sign Up
             </button>

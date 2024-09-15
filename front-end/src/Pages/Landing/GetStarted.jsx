@@ -52,7 +52,7 @@ const GetStarted = () => {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor:'beige',
+    backgroundColor: 'beige',
   });
 
   const CustomTypography = styled(Typography)(({ visible }) => ({
@@ -90,13 +90,22 @@ const GetStarted = () => {
             textAlign="start"
             sx={animatedTitleSx(visible.patientsSection)}
           />
-          <CustomTypography visible={visible.patientsSection}>
-            We help you manage your healthcare effortlessly by providing:<br />
-            1. Easy appointment booking, rescheduling, and cancellation.<br />
-            2. A personalized dashboard displaying all your appointment details.<br />
-            3. Access to your medical test results, if available.<br />
-            4. A simple, user-friendly interface for managing your healthcare needs.<br />
-            5. A streamlined experience that saves time and reduces hassle.
+          <CustomTypography visible={visible.patientsSection} sx={{ fontSize: '1.5rem' }} >
+            <br />
+            <strong>We help you manage your healthcare effortlessly by providing:</strong><br />
+            <br /><br />
+            <ul>
+              <li>Booking an appointment made so easy, even your cat could do it! (Rescheduling and canceling too, just in case life happens.)</li>
+              <br /><br />
+              <li>Your appointments, organized and ready – so you can stop pretending you remember them!</li>
+              <br /><br />
+              <li>Get full access to your medical test results – no need to send a Minion on a top-secret mission to find them!</li>
+              <br /><br />
+              <li>A simple, user-friendly interface – because if Minions can navigate it, so can you!</li>
+              <br /><br />
+              <li>A streamlined experience that saves time and reduces hassle.</li>
+            </ul>
+
           </CustomTypography>
         </Box>
       </CustomGridItem>
@@ -157,11 +166,15 @@ const GetStarted = () => {
             textAlign="start"
             sx={animatedTitleSx(visible.doctorsSection)}
           />
-          <CustomTypography visible={visible.doctorsSection}>
-            Our platform offers a comprehensive solution that allows you to:<br />
-            1. View and organize your appointments in real-time.<br />
-            2. Automate prescription management, so you don’t have to write the same medications for different patients repeatedly.<br />
-            3. Upload and organize patients' test results effortlessly, ensuring their records are up-to-date.
+          <CustomTypography visible={visible.doctorsSection} sx={{ fontSize: '1.5rem' }}>
+            <br/><br/>
+            <strong>Our platform offers a comprehensive solution that allows you to:</strong><br /><br/>
+            <ul>
+              <li>View and organize your appointments in real-time – no more lost sticky notes or crumpled appointment cards!<br /><br /><br /></li>
+              <li>Automate prescription management, so you don’t have to write the same medications for different patients repeatedly.<br /><br /><br /></li>
+              <li>Upload and organize patients' test results effortlessly – no need for Minion-level chaos or confusion!<br /><br /><br /></li>
+            </ul>
+
           </CustomTypography>
         </Box>
       </CustomGridItem>

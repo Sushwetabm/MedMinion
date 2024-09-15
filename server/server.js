@@ -42,11 +42,24 @@ connectDB().then(() => {
 
   app.use(checkAuthentication);
 
+  // app.get("/logout", (req, res) => {
+  //   if (req.cookies.pid != undefined) res.clearCookie("pid");
+  //   else res.clearCookie("aid");
+  //   return res.json({ msg: "Logout Successful" });
+  // });
+
   app.get("/logout", (req, res) => {
-    if (req.cookies.pid != undefined) res.clearCookie("pid");
-    else res.clearCookie("aid");
-    return res.json({ msg: "Logout Successful" });
+    if (req.cookies.pid) {
+      res.clearCookie("pid");
+    } else if (req.cookies.aid) {
+      res.clearCookie("aid");
+    } else {
+      return res.status(400).json({ msg: "No session found" }); // Explicitly handle the case where no cookies are found
+    }
+  
+    return res.status(200).json({ msg: "Logout Successful" });
   });
+  
 
   mongooseConnect();
 

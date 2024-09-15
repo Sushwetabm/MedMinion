@@ -42,6 +42,7 @@ const Header = () => {
                 component= 'h1'
                 sx={{
                     fontWeight: 700,
+                    fontSize:100,
                     color: '#fff',
                     textAlign: 'center',
                     fontFamily:'monospace',
@@ -53,7 +54,7 @@ const Header = () => {
                         }
                 }}
                 >
-                Welcome to MedMinion
+                <strong>Welcome to MedMinion</strong>
                 </Typography>
 
                 <Typography
@@ -67,7 +68,31 @@ const Header = () => {
                     textAlign: 'center',
                     fontFamily:'cursive',
                     marginRight:4,
-                    fontSize:20,
+                    marginTop:6,
+                    fontSize:40,
+                    animation: `fadeIn 3s ease-in`,
+                        '@keyframes fadeIn': {
+                            '0%': { opacity: 0 },
+                            '100%': { opacity: 1 },
+                        }
+                }}
+                >
+                   <i> Because even <br/>MINIONS can run a clinic :)</i>
+                </Typography>
+
+                <Typography
+                variant='p'
+                component='p'
+                sx={{
+                    py: 3,
+                    color: '#fff',
+                    fontWeight: 500,
+                    color: '#fff',
+                    textAlign: 'center',
+                    fontFamily:'cursive',
+                    marginRight:4,
+                    marginTop:6,
+                    fontSize:30,
                     animation: `fadeIn 3s ease-in`,
                         '@keyframes fadeIn': {
                             '0%': { opacity: 0 },

@@ -1,7 +1,7 @@
 import React from "react";
 import "./Navbar.css";
 import { toast } from "react-toastify";
-import logo from "../img/logo.png"; // Ensure the logo path is correct
+import logo from "../img/logo.png"; 
 import { useNavigate } from "react-router-dom";
 
 
@@ -28,7 +28,7 @@ function Navbar() {
         progress: undefined,
         theme: "colored",
       });
-      console.log("sucess", res);
+      console.log("success", res);
       navigate("/");
     } catch (error) {
       console.log(error);

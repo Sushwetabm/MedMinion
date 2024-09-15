@@ -84,9 +84,15 @@ function AppointmentSection() {
     boxesRef.current.forEach((box) => observer.observe(box));
 
     return () => {
-      boxesRef.current.forEach((box) => observer.unobserve(box));
+      // Unobserve elements
+      boxesRef.current.forEach((box) => {
+        if (box instanceof Element) {
+          observer.unobserve(box);
+        }
+      });
     };
   }, []);
+
 
   return (
     <div className="appointment-section">
