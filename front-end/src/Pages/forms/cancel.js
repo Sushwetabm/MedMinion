@@ -7,30 +7,28 @@ const CancelAppointment = () => {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [message, setMessage] = useState('');
     const [patientEmail, setPatientEmail] = useState('');
+    const [error, setError] = useState('');
+
 
     // Function to fetch appointments when the button is clicked
     const fetchAppointments = async () => {
-        if (!patientEmail) {
-            setMessage('Please enter your email.');
-            return;
-        }
-
         try {
-            const response = await axios.post('http://localhost:5000/fetch_appointments', {
-                patient_email: patientEmail,
+            const response = await axios.get('http://localhost:5001/fetch_appointments', {
+                params: { patient_email: patientEmail }
             });
 
-            // Check if appointments exist
-            if (response.data.appointments && response.data.appointments.length > 0) {
-                setAppointments(response.data.appointments);
-                setMessage('Appointments fetched successfully.');
+            if (response.data && response.data.length > 0) {
+                setAppointments(response.data);
+                setError('');
             } else {
                 setAppointments([]);
-                setMessage('No scheduled appointments found.');
+                setError('No scheduled appointments found.');
             }
         } catch (error) {
             console.error('Error fetching appointments:', error);
-            setMessage('Error fetching appointments.');
+            setError(error.response && error.response.data && error.response.data.error 
+                ? error.response.data.error 
+                : 'Error fetching appointments.');
         }
     };
 
@@ -42,9 +40,10 @@ const CancelAppointment = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/cancel_appointment_flow', {
+            const response = await axios.post('http://localhost:5001/cancel_appointment_flow', {
                 patient_email: patientEmail,  // Add patient email
-                appointment_id: selectedAppointment.value,  // Pass appointment ID
+                appointment_date: selectedAppointment.appointment_date,  // Pass appointment ID
+                appointment_time:selectedAppointment.appointment_time,
             });
 
             setMessage(response.data.message);
@@ -56,6 +55,10 @@ const CancelAppointment = () => {
             console.error('Error canceling appointment:', error);
             setMessage('Error canceling the appointment.');
         }
+    };
+
+    const handleAppointmentSelect = (option) => {
+        setSelectedAppointment(option.value);
     };
 
     return (
@@ -75,10 +78,10 @@ const CancelAppointment = () => {
                     <label>Select Appointment to Cancel:</label>
                     <Select
                         options={appointments.map(app => ({
-                            value: app._id, 
+                            value: app, 
                             label: `${app.doctor_name} - ${app.appointment_date} ${app.appointment_time}`
                         }))}
-                        onChange={setSelectedAppointment}
+                        onChange={handleAppointmentSelect}
                         value={selectedAppointment}
                     />
                 </div>
