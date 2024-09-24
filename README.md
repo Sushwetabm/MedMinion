@@ -1,6 +1,6 @@
 # MedMinion
 
-<u>Problem Statement:</u>  
+## <u>Problem Statement:</u>  
 The management of small clinics in India remains largely manual, leading to inefficiencies for both doctors and patients. Manual processes hinder timely access to healthcare services and compromise the accuracy of medical records. To address these challenges, there is a critical need for a modernised approach to clinic management.
 
 ## <u>Key Features:</u>
