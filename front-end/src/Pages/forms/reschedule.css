@@ -1,16 +1,11 @@
-body{
-    background-color: powderblue;
-}
-
 .reschedule-container {
-    margin-top:2rem;
-    margin-bottom:2rem;
+    margin-top:6rem;
+    margin-bottom:6rem;
     margin-left: 20rem;
     width: 100%;
     max-width: 600px;
-    margin: 0 auto;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color:powderblue;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
@@ -18,7 +13,9 @@ body{
 .reschedule-container h1 {
     text-align: center;
     margin-bottom: 20px;
+    font-size: 2.5rem;
     color: #333;
+    font-style:oblique;
 }
 
 .form-group {
@@ -29,13 +26,20 @@ body{
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
+    color: #333;
+    font-size: 1.2rem;
+    font-style: initial;
 }
 
 .form-group input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
+    margin: 8px 0;
+    display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
 }
 
 button {
@@ -43,10 +47,12 @@ button {
     padding: 12px;
     background-color: #007bff;
     color: white;
-    border: none;
+    padding: 14px;
+    margin-top: 20px;
     border-radius: 4px;
-    font-size: 16px;
     cursor: pointer;
+    font-size: 18px;
+    font-style: oblique;
 }
 
 button:hover {
@@ -57,10 +63,12 @@ button:hover {
     color: green;
     margin-top: 20px;
     text-align: center;
+    font-size: 1.5rem;
 }
 
 .error-message {
     color: red;
     margin-top: 20px;
     text-align: center;
+    font-size: 1.5rem;
 }
