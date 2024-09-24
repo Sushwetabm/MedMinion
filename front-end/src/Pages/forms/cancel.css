@@ -1,64 +1,74 @@
-body{
-    background-color: powderblue;
-}
-
 .cancel-container {
-    margin-top:2rem;
-    margin-bottom:2rem;
+    margin-top:6rem;
+    margin-bottom:6rem;
     margin-left: 20rem;
-    max-width: 400px;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background-color: rgb(237, 173, 173)
+}
+
+.cancel-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    color: #333;
+    font-style:oblique;
 }
 
 .form-group {
     margin-bottom: 20px;
 }
 
-label {
-    font-size: 14px;
-    font-weight: bold;
+.form-group label {
     display: block;
     margin-bottom: 8px;
+    font-weight: bold;
     color: #333;
+    font-size: 1.2rem;
+    font-style: initial;
 }
 
-input[type="email"] {
+.form-group input[type="email"] {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
+    margin: 8px 0;
+    display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 14px;
-    margin-bottom: 10px;
     box-sizing: border-box;
+    font-size: 16px;
 }
 
 button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
+    width: 100%;
+    padding: 12px;
+    background-color: red;
+    color: white;
+    padding: 14px;
+    margin-top: 20px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
+    font-size: 18px;
+    font-style: oblique;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color:rgb(234, 131, 131);
 }
 
 .error-message {
     color: red;
-    font-size: 14px;
     margin-top: 10px;
+    text-align: center;
+    font-size: 1.5rem;
 }
 
 .success-message {
     color: green;
-    font-size: 14px;
+    text-align: center;
+    font-size: 1.5rem;
     margin-top: 10px;
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
-
+import './cancel.css';
 const CancelAppointment = () => {
     const [appointments, setAppointments] = useState([]);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -41,16 +41,15 @@ const CancelAppointment = () => {
 
         try {
             const response = await axios.post('http://localhost:5001/cancel_appointment_flow', {
-                patient_email: patientEmail,  // Add patient email
-                appointment_date: selectedAppointment.appointment_date,  // Pass appointment ID
+                patient_email: patientEmail,  
+                appointment_date: selectedAppointment.appointment_date,  
                 appointment_time:selectedAppointment.appointment_time,
             });
 
             setMessage(response.data.message);
 
-            // Optionally remove the canceled appointment from the dropdown
             setAppointments(appointments.filter(app => app._id !== selectedAppointment.value));
-            setSelectedAppointment(null); // Clear the selection
+            setSelectedAppointment(null); 
         } catch (error) {
             console.error('Error canceling appointment:', error);
             setMessage('Error canceling the appointment.');
@@ -62,7 +61,7 @@ const CancelAppointment = () => {
     };
 
     return (
-        <div>
+        <div className="cancel-container">
             <h1>Cancel Appointment</h1>
             <div>
                 <label>Enter your email:</label>

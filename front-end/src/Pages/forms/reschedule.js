@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Select from 'react-select';
-
+import './reschedule.css';
 const RescheduleAppointment = () => {
     const [patientEmail, setPatientEmail] = useState('');
     const [appointments, setAppointments] = useState([]);
